@@ -9,6 +9,12 @@ module.exports = {
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      // Check if the token is still valid based on expiration
+      if (decoded.exp * 1000 < Date.now()) {
+        return res.status(401).json({ message: "Token has expired." });
+      }
+
       req.user = decoded;
       next();
     } catch (err) {

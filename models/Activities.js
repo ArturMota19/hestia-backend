@@ -19,7 +19,6 @@ const Activities = sequelize.define('Activities', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
   errorValue: {
     type: DataTypes.FLOAT,

@@ -11,7 +11,10 @@ const Actuators = sequelize.define('Actuators', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+  },
+  hasSwitch: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
   },
   hasBrightValue: {
     type: DataTypes.BOOLEAN,

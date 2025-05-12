@@ -4,6 +4,6 @@ const {auth} = require("../helpers/authHelper")
 
 const router = express.Router();
 
-router.get('/getAll', auth, getAll);
+router.get('/getAll/:page', auth, getAll);
 
 module.exports = router;

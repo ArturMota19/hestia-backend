@@ -19,7 +19,6 @@ const People = sequelize.define('People', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
 
 });

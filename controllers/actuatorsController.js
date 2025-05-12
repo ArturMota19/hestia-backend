@@ -1,19 +1,34 @@
-const People = require("../models/People")
+const Actuators = require("../models/Actuators")
 
 exports.getAll = async (req, res) => {
   try {
-    const count = await People.count({ where: { userId } });
+    const { page } = req.params;
+    const limit = 6;
+    const offset = (page - 1) * limit;
 
-    const peopleData = await People.findAll({});
+    const count = await Actuators.count({});
 
-    const people = peopleData.map(person => ({
-      paramName: person.name,
-      actuatorSpec: [],
+    const actuatorData = await Actuators.findAll({
+      limit,
+      offset,
+    });
+
+    const actuators = actuatorData.map(activityEach => ({
+      paramName: activityEach.name,
+      actuatorSpec: [
+      { hasBrightValue: activityEach.hasBrightValue },
+      { hasSwitch: activityEach.hasSwitch },
+      { hasTempValue: activityEach.hasTempValue },
+      { hasSoundVolume: activityEach.hasSoundVolume },
+      { hasTempSet: activityEach.hasTempSet },
+      { hasMode: activityEach.hasMode },
+      { hasHumanMotionState: activityEach.hasHumanMotionState },
+      ],
       capacity: null,
-      type: "person",
+      type: "actuator",
     }));
 
-    res.status(200).json({ people, count });
+    res.status(200).json({ actuators, count });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: err.message });
