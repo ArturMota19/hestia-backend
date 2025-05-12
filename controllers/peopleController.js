@@ -12,3 +12,32 @@ exports.register = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getAll = async (req, res) => {
+  try {
+    const { page } = req.params;
+    const userId = req.user.id;
+    const limit = 6;
+    const offset = (page - 1) * limit;
+
+    const count = await People.count({ where: { userId } });
+
+    const peopleData = await People.findAll({
+      where: { userId },
+      limit,
+      offset,
+    });
+
+    const people = peopleData.map(person => ({
+      paramName: person.name,
+      actuatorSpec: [],
+      capacity: null,
+      type: "person",
+    }));
+
+    res.status(200).json({ people, count });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+}
