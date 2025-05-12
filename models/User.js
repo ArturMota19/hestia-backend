@@ -6,16 +6,16 @@ const User = sequelize.define('User', {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
+    unique: true
   },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    unique: 'email'
   },
   password: {
     type: DataTypes.STRING,
@@ -29,7 +29,6 @@ const User = sequelize.define('User', {
     type: DataTypes.BOOLEAN,
     allowNull: false,
   }
-
 });
 
 module.exports = User;
