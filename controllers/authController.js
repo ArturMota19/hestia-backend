@@ -36,19 +36,3 @@ exports.login = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-exports.verifyTokenPost = (req, res) => {
-  const token = req.body.token || req.query.token || req.headers['authorization'];
-
-  if (!token) {
-    return res.status(401).json({ error: 'Access denied. No token provided.' });
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    res.json({ message: 'Token is valid', user: req.user });
-  } catch (err) {
-    res.status(400).json({ error: 'Invalid token' });
-  }
-}

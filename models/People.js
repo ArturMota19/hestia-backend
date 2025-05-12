@@ -8,6 +8,14 @@ const People = sequelize.define('People', {
     primaryKey: true,
     unique: true,
   },
+  userId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: 'users', // Assumes there is a Users model
+      key: 'id',
+    },
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: false,

@@ -1,6 +1,7 @@
 const express = require('express');
 const authRoutes = require('./routes/authRoutes');
 const peopleRoutes = require('./routes/peopleRoutes')
+const activitiesRoutes = require('./routes/activitiesRoutes')
 const cors = require('cors');
 require('dotenv').config();
 
@@ -15,6 +16,7 @@ app.use(cors({
 
 app.use('/auth', authRoutes);
 app.use('/people', peopleRoutes)
+app.use('/activities', activitiesRoutes)
 
 const PORT = process.env.PORT || 3000;
 

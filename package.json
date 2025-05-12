@@ -1,4 +1,13 @@
 {
+  "name": "hestia-backend",
+  "version": "1.0.0",
+  "description": "Backend do projeto Hestia",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "nodemon index.js",
+    "build": "node index.js"
+  },
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
@@ -7,5 +16,11 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.1",
     "sequelize": "^6.37.7"
-  }
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
