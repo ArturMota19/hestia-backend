@@ -1,35 +1,27 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-const User = sequelize.define('User', {
+const Activities = sequelize.define('Activities', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
-    unique: true
+    unique: true,
   },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
     unique: true,
   },
-  password: {
+  errorValue: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  color: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  isSearcherUFBA: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-  },
-  isAdmin: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-  }
 
 });
 
-module.exports = User;
+module.exports = Activities;
