@@ -16,14 +16,18 @@ const RoomActuators = sequelize.define('RoomActuators', {
       key: 'id',
     },
   },
-  houseActuatorsId:{
-    type: DataTypes.UUID,
+  actuatorId: {
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'HouseActuators',
+      model: 'Actuators', 
       key: 'id',
     },
-  }
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 });
 
 module.exports = RoomActuators;

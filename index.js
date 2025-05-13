@@ -4,6 +4,7 @@ const peopleRoutes = require('./routes/peopleRoutes')
 const activitiesRoutes = require('./routes/activitiesRoutes')
 const roomsRoutes = require('./routes/roomsRoutes')
 const actuatorsRoutes = require('./routes/actuatorsRoutes')
+const presetsRoutes = require('./routes/presetsRoutes')
 const cors = require('cors');
 const sequelize = require('./config/db');
 const User = require('./models/User');
@@ -25,6 +26,7 @@ app.use('/people', peopleRoutes)
 app.use('/activities', activitiesRoutes)
 app.use('/rooms', roomsRoutes)
 app.use('/actuators', actuatorsRoutes)
+app.use('/presets', presetsRoutes)
 
 const PORT = process.env.PORT || 3000;
 sequelize.sync({ alter: true })

@@ -24,14 +24,6 @@ const HouseRooms = sequelize.define('HouseRooms', {
       key: 'id',
     },
   },
-  RoomActuators: {
-    type: DataTypes.UUID,
-    allowNull: false,
-    references: {
-      model: 'RoomActuators', 
-      key: 'id',
-    },
-  }
 });
 
 module.exports = HouseRooms;

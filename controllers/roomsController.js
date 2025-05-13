@@ -41,3 +41,16 @@ exports.getAll = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 }
+
+exports.getSelf = async (req, res) => {
+  try{
+    const userId = req.user.id;
+    const rooms = await Rooms.findAll({
+      where: {userId}
+    })
+    res.status(200).json({ rooms });
+  }catch(e){
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+}
