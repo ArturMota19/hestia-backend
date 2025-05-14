@@ -31,4 +31,9 @@ const Activities = sequelize.define('Activities', {
 
 });
 
+Activities.associate = (models) => {
+  Activities.belongsTo(models.User, { foreignKey: 'userId' });
+};
+
+
 module.exports = Activities;

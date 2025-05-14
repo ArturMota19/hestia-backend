@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-const Rooms = sequelize.define('Rooms', {
+const HousePresets = sequelize.define('HousePresets', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -20,16 +20,14 @@ const Rooms = sequelize.define('Rooms', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  capacity: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
+
 });
 
-Rooms.associate = (models) => {
-  Rooms.belongsTo(models.User, { foreignKey: 'userId' });
-  Rooms.hasMany(models.HouseRooms, { foreignKey: 'roomId' });
+HousePresets.associate = (models) => {
+  HousePresets.belongsTo(models.User, { foreignKey: "userId" });
+  HousePresets.hasMany(models.HouseRooms, { foreignKey: "housePresetId" });
+  HousePresets.hasMany(models.GraphRooms, { foreignKey: "housePresetId" });
 };
 
 
-module.exports = Rooms;
+module.exports = HousePresets;

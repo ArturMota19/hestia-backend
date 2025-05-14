@@ -34,3 +34,15 @@ exports.getAll = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 }
+
+exports.getAllWithoutPagination = async (req, res) => {
+  try {
+
+    const actuators = await Actuators.findAll({});
+
+    res.status(200).json({ actuators });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+}

@@ -23,4 +23,9 @@ const People = sequelize.define('People', {
 
 });
 
+People.associate = (models) => {
+  People.belongsTo(models.User, { foreignKey: 'userId' });
+};
+
+
 module.exports = People;

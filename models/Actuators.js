@@ -42,4 +42,9 @@ const Actuators = sequelize.define('Actuators', {
   },
 });
 
+Actuators.associate = (models) => {
+  Actuators.hasMany(models.RoomActuators, { foreignKey: 'actuatorId' });
+};
+
+
 module.exports = Actuators;
