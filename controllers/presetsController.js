@@ -2,7 +2,9 @@ const HousePresets = require("../models/HousePresets")
 const RoomActuators = require("../models/RoomActuators")
 const HouseRooms = require("../models/HouseRooms")
 const GraphRooms = require("../models/GraphRooms");
+const Actuators = require("../models/Actuators")
 const sequelize = require("../config/db");
+const Rooms = require("../models/Rooms")
 
 exports.register = async (req, res) => {
   const transaction = await sequelize.transaction();
@@ -78,3 +80,76 @@ exports.register = async (req, res) => {
     return res.status(500).json({ error: 'Error creating preset: ' + err.message });
   }
 };
+
+exports.getAll = async (req, res) => {
+  try {
+    const { page } = req.params;
+    const userId = req.user.id;
+    const limit = 6;
+    const offset = (page - 1) * limit;
+
+    const count = await HousePresets.count({ where: { userId } });
+
+    const presetData = await HousePresets.findAll({
+      where: { userId },
+      limit,
+      offset,
+      include: [
+      {
+        model: GraphRooms,
+        as: 'GraphRooms',
+        attributes: ['id', 'housePresetId', 'originRoomId', 'destinationRoomId', 'distance', 'createdAt', 'updatedAt'],
+        include: [
+        {
+          model: HouseRooms,
+          as: 'originRoom',
+          include: [
+          {
+            model: Rooms,
+            as: 'Room',
+          }
+          ]
+        },
+        {
+          model: HouseRooms,
+          as: 'destinationRoom',
+          include: [
+          {
+            model: Rooms,
+            as: 'Room',
+          }
+          ]
+        }
+        ]
+      },
+      {
+        model: HouseRooms,
+        as: 'HouseRooms',
+        include: [
+        {
+          model: Rooms,
+          as: 'Room'
+        },
+        {
+          model: RoomActuators,
+          as: 'RoomActuators',
+          attributes: ['id', 'houseRoomId', 'actuatorId', 'name', 'createdAt', 'updatedAt'],
+          include: [
+          {
+            model: Actuators,
+            as: 'actuator'
+          }
+          ]
+        }
+        ]
+      }
+      ]
+    });
+
+    res.status(200).json({ presetData, count });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+

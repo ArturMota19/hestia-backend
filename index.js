@@ -6,7 +6,7 @@ const roomsRoutes = require('./routes/roomsRoutes')
 const actuatorsRoutes = require('./routes/actuatorsRoutes')
 const presetsRoutes = require('./routes/presetsRoutes')
 const cors = require('cors');
-const sequelize = require('./config/db');
+const {sequelize} = require('./models/index.js');
 const User = require('./models/User');
 const bcrypt = require('bcryptjs')
 const Actuators = require('./models/Actuators');
@@ -29,7 +29,7 @@ app.use('/actuators', actuatorsRoutes)
 app.use('/presets', presetsRoutes)
 
 const PORT = process.env.PORT || 3000;
-sequelize.sync({ alter: true })
+sequelize.sync({ alter: false })
   .then(async () => {
     console.log('Database synchronized.');
 

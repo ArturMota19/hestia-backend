@@ -30,4 +30,16 @@ const RoomActuators = sequelize.define('RoomActuators', {
   },
 });
 
+RoomActuators.associate = (models) => {
+  RoomActuators.belongsTo(models.HouseRooms, {
+    foreignKey: 'houseRoomId',
+    as: 'houseRoom',
+  });
+  RoomActuators.belongsTo(models.Actuators, {
+    foreignKey: 'actuatorId',
+    as: 'actuator',
+  });
+};
+
+
 module.exports = RoomActuators;

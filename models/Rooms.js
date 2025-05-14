@@ -26,4 +26,10 @@ const Rooms = sequelize.define('Rooms', {
   },
 });
 
+Rooms.associate = (models) => {
+  Rooms.belongsTo(models.User, { foreignKey: 'userId' });
+  Rooms.hasMany(models.HouseRooms, { foreignKey: 'roomId' });
+};
+
+
 module.exports = Rooms;

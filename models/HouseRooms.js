@@ -26,4 +26,20 @@ const HouseRooms = sequelize.define('HouseRooms', {
   },
 });
 
+HouseRooms.associate = (models) => {
+  HouseRooms.belongsTo(models.HousePresets, { foreignKey: "housePresetId" });
+  HouseRooms.belongsTo(models.Rooms, { foreignKey: "roomId" });
+  HouseRooms.hasMany(models.RoomActuators, { foreignKey: "houseRoomId" });
+  HouseRooms.hasMany(models.GraphRooms, {
+    foreignKey: "originRoomId",
+    as: "originLinks",
+  });
+  HouseRooms.hasMany(models.GraphRooms, {
+    foreignKey: "destinationRoomId",
+    as: "destinationLinks",
+  });
+};
+
+
+
 module.exports = HouseRooms;
