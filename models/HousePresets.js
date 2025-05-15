@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-const HousePresets = sequelize.define('HousePresets', {
+const HousePresets = sequelize.define("HousePresets", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -12,15 +12,14 @@ const HousePresets = sequelize.define('HousePresets', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'User', // Assumes there is a Users model
-      key: 'id',
+      model: "Users", // Assumes there is a Users model
+      key: "id",
     },
   },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-
 });
 
 HousePresets.associate = (models) => {

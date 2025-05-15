@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-const Activities = sequelize.define('Activities', {
+const Activities = sequelize.define("Activities", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -12,8 +12,8 @@ const Activities = sequelize.define('Activities', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'User', // Assumes there is a Users model
-      key: 'id',
+      model: "Users", // Assumes there is a Users model
+      key: "id",
     },
   },
   name: {
@@ -28,7 +28,6 @@ const Activities = sequelize.define('Activities', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-
 });
 
 Activities.associate = (models) => {
