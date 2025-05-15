@@ -23,7 +23,7 @@ const People = sequelize.define("people", {
 });
 
 People.associate = (models) => {
-  People.belongsTo(models.User, { foreignKey: 'userId' });
+  People.belongsTo(models.Users, { foreignKey: "userId" });
 };
 
 

@@ -3,12 +3,12 @@ const People = require("../models/People")
 exports.register = async (req, res) => {
   try {
     const { name } = req.body;
-    const userId = req.user.id
+    const userId = req.users.id;
 
-    const people = await People.create({name, userId});
-    res.status(201).json({ message: 'People registered', people });
+    const people = await People.create({ name, userId });
+    res.status(201).json({ message: "People registered", people });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -16,7 +16,7 @@ exports.register = async (req, res) => {
 exports.getAll = async (req, res) => {
   try {
     const { page } = req.params;
-    const userId = req.user.id;
+    const userId = req.users.id;
     const limit = 6;
     const offset = (page - 1) * limit;
 
@@ -28,7 +28,7 @@ exports.getAll = async (req, res) => {
       offset,
     });
 
-    const people = peopleData.map(person => ({
+    const people = peopleData.map((person) => ({
       paramName: person.name,
       actuatorSpec: [],
       capacity: null,
@@ -40,4 +40,4 @@ exports.getAll = async (req, res) => {
     console.log(err);
     res.status(500).json({ error: err.message });
   }
-}
+};

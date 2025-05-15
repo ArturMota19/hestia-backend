@@ -23,7 +23,7 @@ const HousePresets = sequelize.define("housepresets", {
 });
 
 HousePresets.associate = (models) => {
-  HousePresets.belongsTo(models.User, { foreignKey: "userId" });
+  HousePresets.belongsTo(models.Users, { foreignKey: "userId" });
   HousePresets.hasMany(models.HouseRooms, { foreignKey: "housePresetId" });
   HousePresets.hasMany(models.GraphRooms, { foreignKey: "housePresetId" });
 };

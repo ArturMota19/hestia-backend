@@ -3,12 +3,17 @@ const Activities = require("../models/Activities")
 exports.register = async (req, res) => {
   try {
     const { name, errorValue, color } = req.body;
-    const userId = req.user.id
+    const userId = req.users.id;
 
-    const activitie = await Activities.create({ name, errorValue, color, userId });
-    res.status(201).json({ message: 'Activitie registered', activitie });
+    const activitie = await Activities.create({
+      name,
+      errorValue,
+      color,
+      userId,
+    });
+    res.status(201).json({ message: "Activitie registered", activitie });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -16,7 +21,7 @@ exports.register = async (req, res) => {
 exports.getAll = async (req, res) => {
   try {
     const { page } = req.params;
-    const userId = req.user.id;
+    const userId = req.users.id;
     const limit = 6;
     const offset = (page - 1) * limit;
 
@@ -28,7 +33,7 @@ exports.getAll = async (req, res) => {
       offset,
     });
 
-    const activity = activitieData.map(activityEach => ({
+    const activity = activitieData.map((activityEach) => ({
       paramName: activityEach.name,
       actuatorSpec: [],
       capacity: null,
@@ -40,4 +45,4 @@ exports.getAll = async (req, res) => {
     console.log(err);
     res.status(500).json({ error: err.message });
   }
-}
+};

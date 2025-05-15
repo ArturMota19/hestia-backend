@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/db");
 
-const User = require("./User");
+const Users = require("./Users");
 const Actuators = require("./Actuators");
 const Activities = require("./Activities");
 const People = require("./People");
@@ -12,7 +12,7 @@ const HouseRooms = require("./HouseRooms"); // Mova esta linha para antes de Roo
 const RoomActuators = require("./RoomActuators");
 
 const models = {
-  User,
+  Users,
   Activities,
   People,
   Actuators,
@@ -21,7 +21,6 @@ const models = {
   HouseRooms,
   GraphRooms,
   RoomActuators,
-
 };
 
 Object.values(models).forEach((model) => {

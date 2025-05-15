@@ -7,7 +7,7 @@ const actuatorsRoutes = require("./routes/actuatorsRoutes");
 const presetsRoutes = require("./routes/presetsRoutes");
 const cors = require("cors");
 const { sequelize, models } = require("./models/index.js");
-const User = require("./models/User");
+const Users = require("./models/Users");
 const bcrypt = require("bcryptjs");
 const Actuators = require("./models/Actuators");
 require("dotenv").config();
@@ -34,21 +34,20 @@ const PORT = process.env.PORT || 3000;
 sequelize
   .sync({ force: true })
   .then(async () => {
-
-    const existingUser = await User.findOne({ where: { isAdmin: true } });
+    const existingUser = await Users.findOne({ where: { isAdmin: true } });
 
     if (!existingUser) {
       const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
-      await User.create({
+      await Users.create({
         name: process.env.ADMIN_NAME || "Admin",
         email: process.env.ADMIN_EMAIL || "admin@example.com",
         password: hashedPassword,
         isAdmin: true,
         isSearcherUFBA: true,
       });
-      console.log("Default admin user created.");
+      console.log("Default admin users created.");
     } else {
-      console.log("Admin user already exists.");
+      console.log("Admin users already exists.");
     }
 
     // Create default actuators
