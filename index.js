@@ -136,7 +136,8 @@ sequelize
         console.log(`Actuator ${actuator.name} already exists.`);
       }
     }
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch((err) => console.error("Error synchronizing database:", err));
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
