@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-const HousePresets = sequelize.define("HousePresets", {
+const HousePresets = sequelize.define("housepresets", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,

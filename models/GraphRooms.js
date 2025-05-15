@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-const GraphRooms = sequelize.define('GraphRooms', {
+const GraphRooms = sequelize.define('graphrooms', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
