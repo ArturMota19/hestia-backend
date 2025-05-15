@@ -12,7 +12,7 @@ const Rooms = sequelize.define('Rooms', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'users', // Assumes there is a Users model
+      model: 'User',
       key: 'id',
     },
   },
