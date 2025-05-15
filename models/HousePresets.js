@@ -12,7 +12,7 @@ const HousePresets = sequelize.define("HousePresets", {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: "Users", // Assumes there is a Users model
+      model: "users", 
       key: "id",
     },
   },

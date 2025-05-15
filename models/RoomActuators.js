@@ -12,7 +12,7 @@ const RoomActuators = sequelize.define('RoomActuators', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'HouseRooms',
+      model: 'houserooms',
       key: 'id',
     },
   },
@@ -20,7 +20,7 @@ const RoomActuators = sequelize.define('RoomActuators', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Actuators', 
+      model: 'actuators', 
       key: 'id',
     },
   },

@@ -12,7 +12,7 @@ const GraphRooms = sequelize.define('GraphRooms', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'HousePresets',
+      model: 'housepresets',
       key: 'id',
     },
   },
@@ -20,7 +20,7 @@ const GraphRooms = sequelize.define('GraphRooms', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'HouseRooms',
+      model: 'houserooms',
       key: 'id',
     },
   },
@@ -28,7 +28,7 @@ const GraphRooms = sequelize.define('GraphRooms', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'HouseRooms',
+      model: 'houserooms',
       key: 'id',
     },
   },

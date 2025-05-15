@@ -12,7 +12,7 @@ const HouseRooms = sequelize.define('HouseRooms', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'HousePresets',
+      model: 'housepresets',
       key: 'id',
     },
   },
@@ -20,7 +20,7 @@ const HouseRooms = sequelize.define('HouseRooms', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'Rooms', 
+      model: 'rooms', 
       key: 'id',
     },
   },

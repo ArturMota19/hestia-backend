@@ -12,7 +12,7 @@ const People = sequelize.define("People", {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: "Users",
+      model: "users",
       key: "id",
     },
   },
