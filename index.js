@@ -30,7 +30,7 @@ app.use("/rooms", roomsRoutes);
 app.use("/actuators", actuatorsRoutes);
 app.use("/presets", presetsRoutes);
 
-const PORT = process.env.PORT || 8080; // Ou 3000, 8080 é temporario pra PROD
+const PORT = process.env.PORT || 3000;
 sequelize
   .sync({ alter: false })
   .then(async () => {
