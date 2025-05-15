@@ -32,7 +32,7 @@ app.use("/presets", presetsRoutes);
 
 const PORT = process.env.PORT || 3000;
 sequelize
-  .sync({ alter: false })
+  .sync({ force: true })
   .then(async () => {
 
     const existingUser = await User.findOne({ where: { isAdmin: true } });
