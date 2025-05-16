@@ -118,7 +118,6 @@ exports.getAll = async (req, res) => {
       include: [
         {
           model: GraphRooms,
-          as: "GraphRooms",
           attributes: [
             "id",
             "housePresetId",
@@ -131,21 +130,17 @@ exports.getAll = async (req, res) => {
           include: [
             {
               model: HouseRooms,
-              as: "originRoom",
               include: [
                 {
                   model: Rooms,
-                  as: "Room",
                 },
               ],
             },
             {
               model: HouseRooms,
-              as: "destinationRoom",
               include: [
                 {
                   model: Rooms,
-                  as: "Room",
                 },
               ],
             },
@@ -153,15 +148,12 @@ exports.getAll = async (req, res) => {
         },
         {
           model: HouseRooms,
-          as: "HouseRooms",
           include: [
             {
               model: Rooms,
-              as: "Room",
             },
             {
               model: RoomActuators,
-              as: "RoomActuators",
               attributes: [
                 "id",
                 "houseRoomId",
@@ -173,7 +165,6 @@ exports.getAll = async (req, res) => {
               include: [
                 {
                   model: Actuators,
-                  as: "actuator",
                 },
               ],
             },
