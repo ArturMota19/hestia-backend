@@ -189,7 +189,6 @@ exports.getAllWithoutPage = async (req, res) => {
       include: [
         {
           model: GraphRooms,
-          as: "GraphRooms",
           attributes: [
             "id",
             "housePresetId",
@@ -202,21 +201,17 @@ exports.getAllWithoutPage = async (req, res) => {
           include: [
             {
               model: HouseRooms,
-              as: "originRoom",
               include: [
                 {
                   model: Rooms,
-                  as: "Room",
                 },
               ],
             },
             {
               model: HouseRooms,
-              as: "destinationRoom",
               include: [
                 {
                   model: Rooms,
-                  as: "Room",
                 },
               ],
             },
@@ -224,15 +219,12 @@ exports.getAllWithoutPage = async (req, res) => {
         },
         {
           model: HouseRooms,
-          as: "HouseRooms",
           include: [
             {
               model: Rooms,
-              as: "Room",
             },
             {
               model: RoomActuators,
-              as: "RoomActuators",
               attributes: [
                 "id",
                 "houseRoomId",
@@ -244,7 +236,6 @@ exports.getAllWithoutPage = async (req, res) => {
               include: [
                 {
                   model: Actuators,
-                  as: "actuator",
                 },
               ],
             },
