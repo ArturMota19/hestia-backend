@@ -184,7 +184,7 @@ exports.getAllWithoutPage = async (req, res) => {
   try {
     const userId = req.users.id;
 
-    const presetData = await HousePresets.findAll({
+    const presetDataRaw = await HousePresets.findAll({
       where: { userId },
       include: [
         {
@@ -242,6 +242,20 @@ exports.getAllWithoutPage = async (req, res) => {
           ],
         },
       ],
+    });
+
+    // Mapeia os dados inserindo o `room.name` diretamente dentro de cada houseRoom
+    const presetData = presetDataRaw.map((preset) => {
+      const presetJSON = preset.toJSON();
+
+      if (Array.isArray(presetJSON.houserooms)) {
+        presetJSON.houserooms = presetJSON.houserooms.map((houseRoom) => ({
+          ...houseRoom,
+          name: houseRoom.room?.name || null,
+        }));
+      }
+
+      return presetJSON;
     });
 
     res.status(200).json({ presetData });
