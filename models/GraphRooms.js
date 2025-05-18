@@ -42,11 +42,9 @@ GraphRooms.associate = (models) => {
   GraphRooms.belongsTo(models.HousePresets, { foreignKey: "housePresetId" });
   GraphRooms.belongsTo(models.HouseRooms, {
     foreignKey: "originRoomId",
-    as: "originRoom",
   });
   GraphRooms.belongsTo(models.HouseRooms, {
     foreignKey: "destinationRoomId",
-    as: "destinationRoom",
   });
 };
 

@@ -32,11 +32,9 @@ HouseRooms.associate = (models) => {
   HouseRooms.hasMany(models.RoomActuators, { foreignKey: "houseRoomId" });
   HouseRooms.hasMany(models.GraphRooms, {
     foreignKey: "originRoomId",
-    as: "originLinks",
   });
   HouseRooms.hasMany(models.GraphRooms, {
     foreignKey: "destinationRoomId",
-    as: "destinationLinks",
   });
 };
 
