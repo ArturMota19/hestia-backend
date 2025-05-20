@@ -26,6 +26,11 @@ const models = {
   HouseRooms,
   GraphRooms,
   RoomActuators,
+  DayRoutine,
+  PeopleRoutines,
+  OtherActivities,
+  RoutineActivities,
+  ActuatorsActivity
 };
 
 Object.values(models).forEach((model) => {

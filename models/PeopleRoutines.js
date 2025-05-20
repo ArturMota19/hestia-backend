@@ -8,6 +8,14 @@ const PeopleRoutines = sequelize.define('peopleroutines', {
     primaryKey: true,
     unique: true,
   },
+  housePresetId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: 'housepresets',
+      key: 'id',
+    },
+  },
   peopleId: {
     type: DataTypes.UUID,
     allowNull: false,
@@ -79,6 +87,9 @@ PeopleRoutines.associate = (models) => {
   PeopleRoutines.belongsTo(models.People, {
     foreignKey: 'peopleId',
     as: 'person',
+  });
+  PeopleRoutines.belongsTo(models.HousePresets, {
+    foreignKey: 'housePresetId',
   });
   PeopleRoutines.belongsTo(models.DayRoutine, {
     foreignKey: 'mondayRoutineId',
