@@ -17,7 +17,7 @@ const ActuatorsActivity = sequelize.define('actuatorsactivity', {
     },
   },
   actuatorId: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: 'actuators',
@@ -82,14 +82,14 @@ const ActuatorsActivity = sequelize.define('actuatorsactivity', {
   },
 });
 
-// RoomActuators.associate = (models) => {
-//   RoomActuators.belongsTo(models.HouseRooms, {
-//     foreignKey: 'houseRoomId',
-//   });
-//   RoomActuators.belongsTo(models.Actuators, {
-//     foreignKey: 'actuatorId',
-//   });
-// };
+ActuatorsActivity.associate = (models) => {
+  ActuatorsActivity.belongsTo(models.RoutineActivities, {
+    foreignKey: 'routineActivitiesId',
+  });
+  ActuatorsActivity.belongsTo(models.Actuators, {
+    foreignKey: 'actuatorId',
+  });
+};
 
 
 module.exports = ActuatorsActivity;

@@ -30,14 +30,14 @@ const OtherActivities = sequelize.define('otheractivities', {
   }
 });
 
-// RoomActuators.associate = (models) => {
-//   RoomActuators.belongsTo(models.HouseRooms, {
-//     foreignKey: 'houseRoomId',
-//   });
-//   RoomActuators.belongsTo(models.Actuators, {
-//     foreignKey: 'actuatorId',
-//   });
-// };
+OtherActivities.associate = (models) => {
+  OtherActivities.belongsTo(models.RoutineActivities, {
+    foreignKey: 'routineActivitiesId',
+  });
+  OtherActivities.belongsTo(models.Activities, {
+    foreignKey: 'activityId',
+  });
+};
 
 
 module.exports = OtherActivities;

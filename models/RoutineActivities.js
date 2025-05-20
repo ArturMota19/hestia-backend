@@ -8,6 +8,14 @@ const RoutineActivities = sequelize.define('routineactivities', {
     primaryKey: true,
     unique: true,
   },
+  dayRoutineId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: 'dayroutines',
+      key: 'id',
+    },
+  },
   activityId: {
     type: DataTypes.UUID,
     allowNull: false,
@@ -16,15 +24,15 @@ const RoutineActivities = sequelize.define('routineactivities', {
       key: 'id',
     },
   },
-  startTime:{
+  startTime: {
     type: DataTypes.TIME,
     allowNull: false,
   },
-  endTime:{
+  endTime: {
     type: DataTypes.TIME,
     allowNull: false,
   },
-  activityRoom:{
+  activityRoom: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
@@ -32,17 +40,21 @@ const RoutineActivities = sequelize.define('routineactivities', {
       key: 'id',
     },
   },
-
 });
 
-// RoomActuators.associate = (models) => {
-//   RoomActuators.belongsTo(models.HouseRooms, {
-//     foreignKey: 'houseRoomId',
-//   });
-//   RoomActuators.belongsTo(models.Actuators, {
-//     foreignKey: 'actuatorId',
-//   });
-// };
-
+RoutineActivities.associate = (models) => {
+  RoutineActivities.belongsTo(models.DayRoutine, {
+    foreignKey: 'dayRoutineId',
+    as: 'dayRoutine',
+  });
+  RoutineActivities.belongsTo(models.Activities, {
+    foreignKey: 'activityId',
+    as: 'activity',
+  });
+  RoutineActivities.belongsTo(models.Rooms, {
+    foreignKey: 'activityRoom',
+    as: 'room',
+  });
+};
 
 module.exports = RoutineActivities;

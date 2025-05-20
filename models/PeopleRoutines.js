@@ -20,7 +20,7 @@ const PeopleRoutines = sequelize.define('peopleroutines', {
     type: DataTypes.UUID,
     allowNull: true,
     references: {
-      model: 'dayroutine',
+      model: 'dayroutines',
       key: 'id',
     },
   },
@@ -28,7 +28,7 @@ const PeopleRoutines = sequelize.define('peopleroutines', {
     type: DataTypes.UUID,
     allowNull: true,
     references: {
-      model: 'dayroutine',
+      model: 'dayroutines',
       key: 'id',
     },
   },
@@ -36,7 +36,7 @@ const PeopleRoutines = sequelize.define('peopleroutines', {
     type: DataTypes.UUID,
     allowNull: true,
     references: {
-      model: 'dayroutine',
+      model: 'dayroutines',
       key: 'id',
     },
   },
@@ -44,7 +44,7 @@ const PeopleRoutines = sequelize.define('peopleroutines', {
     type: DataTypes.UUID,
     allowNull: true,
     references: {
-      model: 'dayroutine',
+      model: 'dayroutines',
       key: 'id',
     },
   },
@@ -52,7 +52,7 @@ const PeopleRoutines = sequelize.define('peopleroutines', {
     type: DataTypes.UUID,
     allowNull: true,
     references: {
-      model: 'dayroutine',
+      model: 'dayroutines',
       key: 'id',
     },
   },
@@ -60,7 +60,7 @@ const PeopleRoutines = sequelize.define('peopleroutines', {
     type: DataTypes.UUID,
     allowNull: true,
     references: {
-      model: 'dayroutine',
+      model: 'dayroutines',
       key: 'id',
     },
   },
@@ -68,21 +68,47 @@ const PeopleRoutines = sequelize.define('peopleroutines', {
     type: DataTypes.UUID,
     allowNull: true,
     references: {
-      model: 'dayroutine',
+      model: 'dayroutines',
       key: 'id',
     },
   },
   
 });
 
-// RoomActuators.associate = (models) => {
-//   RoomActuators.belongsTo(models.HouseRooms, {
-//     foreignKey: 'houseRoomId',
-//   });
-//   RoomActuators.belongsTo(models.Actuators, {
-//     foreignKey: 'actuatorId',
-//   });
-// };
+PeopleRoutines.associate = (models) => {
+  PeopleRoutines.belongsTo(models.People, {
+    foreignKey: 'peopleId',
+    as: 'person',
+  });
+  PeopleRoutines.belongsTo(models.DayRoutine, {
+    foreignKey: 'mondayRoutineId',
+    as: 'mondayRoutine',
+  });
+  PeopleRoutines.belongsTo(models.DayRoutine, {
+    foreignKey: 'tuesdayRoutineId',
+    as: 'tuesdayRoutine',
+  });
+  PeopleRoutines.belongsTo(models.DayRoutine, {
+    foreignKey: 'wednesdayRoutineId',
+    as: 'wednesdayRoutine',
+  });
+  PeopleRoutines.belongsTo(models.DayRoutine, {
+    foreignKey: 'thursdayRoutineId',
+    as: 'thursdayRoutine',
+  });
+  PeopleRoutines.belongsTo(models.DayRoutine, {
+    foreignKey: 'fridayRoutineId',
+    as: 'fridayRoutine',
+  });
+  PeopleRoutines.belongsTo(models.DayRoutine, {
+    foreignKey: 'saturdayRoutineId',
+    as: 'saturdayRoutine',
+  });
+  PeopleRoutines.belongsTo(models.DayRoutine, {
+    foreignKey: 'sundayRoutineId',
+    as: 'sundayRoutine',
+  });
+};
 
 
 module.exports = PeopleRoutines;

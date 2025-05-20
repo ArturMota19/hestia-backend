@@ -10,6 +10,11 @@ const HousePresets = require("./HousePresets");
 const GraphRooms = require("./GraphRooms");
 const HouseRooms = require("./HouseRooms"); // Mova esta linha para antes de RoomActuators
 const RoomActuators = require("./RoomActuators");
+const DayRoutine = require("./DayRoutine")
+const PeopleRoutines = require("./PeopleRoutines")
+const OtherActivities = require("./OtherActivities")
+const RoutineActivities = require("./RoutineActivities")
+const ActuatorsActivity = require("./ActuatorsActivity")
 
 const models = {
   Users,
