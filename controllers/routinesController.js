@@ -1,4 +1,4 @@
-const { RoutineActivities, ActuatorsActivity, OtherActivities, DayRoutine, PeopleRoutines } = require('../models');
+const { RoutineActivities, ActuatorsActivity, OtherActivities, DayRoutine, PeopleRoutines, People } = require('../models');
 const { v4: uuidv4 } = require('uuid');
 
 exports.registerPeopleDayRoutines = async (req, res) => {
@@ -18,12 +18,16 @@ exports.registerPeopleDayRoutines = async (req, res) => {
 
   try{
     const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+    const peopleName = await People.findOne({
+      where: {id: personId}
+    })
     const eachDay = [];
     for (const day of days) {
       let returnDayRoutine = await DayRoutine.create({ day });
       eachDay.push(returnDayRoutine.id);
     }
-    await PeopleRoutines.create({
+
+    const data = await PeopleRoutines.create({
       peopleId: personId,
       housePresetId: housePresetId,
       mondayRoutineId: eachDay[0],
@@ -33,8 +37,17 @@ exports.registerPeopleDayRoutines = async (req, res) => {
       fridayRoutineId: eachDay[4],
       saturdayRoutineId: eachDay[5],
       sundayRoutineId: eachDay[6]
-    })
-    return res.status(201).json({ message: 'Day routines registered for person.' });  
+    });
+
+    let peopleRoutines = {
+      ...data.toJSON(),
+      peopleName: peopleName ? peopleName.name : null
+    };
+
+    return res.status(201).json({ 
+      message: 'Day routines registered for person.',  
+      peopleRoutines
+    });  
   }catch(e){
     return res.status(500).json({ error: 'Error registering people routine', details: err.message });
   }
@@ -47,11 +60,22 @@ exports.getPeopleRoutinesByPresetId = async (req, res) => {
       return res.status(400).json({ error: 'housePresetId is required' });
     }
 
-    const peopleRoutines = await PeopleRoutines.findAll({
+    const data = await PeopleRoutines.findAll({
       where: { housePresetId }
     });
 
-    return res.status(200).json(peopleRoutines);
+    // Para cada rotina, buscar o nome da pessoa e adicionar ao objeto
+    const routinesWithPeopleName = await Promise.all(
+      data.map(async (routine) => {
+        const people = await People.findOne({ where: { id: routine.peopleId } });
+        return {
+          ...routine.toJSON(),
+          peopleName: people ? people.name : null
+        };
+      })
+    );
+
+    return res.status(200).json(routinesWithPeopleName);
   } catch (err) {
     return res.status(500).json({ error: 'Error fetching people routines', details: err.message });
   }
