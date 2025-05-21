@@ -1,5 +1,61 @@
-const { RoutineActivities, ActuatorsActivity, OtherActivities } = require('../models');
+const { RoutineActivities, ActuatorsActivity, OtherActivities, DayRoutine, PeopleRoutines } = require('../models');
 const { v4: uuidv4 } = require('uuid');
+
+exports.registerPeopleDayRoutines = async (req, res) => {
+  const {personId, housePresetId} = req.body
+  if(!personId){
+    return res.status(400).json({error: "PersonId or housePresetId is missing"})
+  }
+  const existingRoutine = await PeopleRoutines.findOne({
+    where: {
+      peopleId: personId,
+      housePresetId: housePresetId
+    }
+  });
+  if (existingRoutine) {
+    return res.status(409).json({ error: "Routine for this person and housePreset already exists" });
+  }
+
+  try{
+    const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+    const eachDay = [];
+    for (const day of days) {
+      let returnDayRoutine = await DayRoutine.create({ day });
+      eachDay.push(returnDayRoutine.id);
+    }
+    await PeopleRoutines.create({
+      peopleId: personId,
+      housePresetId: housePresetId,
+      mondayRoutineId: eachDay[0],
+      tuesdayRoutineId: eachDay[1],
+      wednesdayRoutineId: eachDay[2],
+      thursdayRoutineId: eachDay[3],
+      fridayRoutineId: eachDay[4],
+      saturdayRoutineId: eachDay[5],
+      sundayRoutineId: eachDay[6]
+    })
+    return res.status(201).json({ message: 'Day routines registered for person.' });  
+  }catch(e){
+    return res.status(500).json({ error: 'Error registering people routine', details: err.message });
+  }
+}
+
+exports.getPeopleRoutinesByPresetId = async (req, res) => {
+  try {
+    const { housePresetId } = req.params;
+    if (!housePresetId) {
+      return res.status(400).json({ error: 'housePresetId is required' });
+    }
+
+    const peopleRoutines = await PeopleRoutines.findAll({
+      where: { housePresetId }
+    });
+
+    return res.status(200).json(peopleRoutines);
+  } catch (err) {
+    return res.status(500).json({ error: 'Error fetching people routines', details: err.message });
+  }
+}
 
 exports.register = async (req, res) => {
   const { activity, actuators, otherActivities, start, duration, dayRoutineId, presetId } = req.body;
