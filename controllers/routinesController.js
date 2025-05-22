@@ -1,5 +1,18 @@
-const { RoutineActivities, ActuatorsActivity, OtherActivities, DayRoutine, PeopleRoutines, People } = require('../models');
+const { RoutineActivities, ActuatorsActivity, OtherActivities, DayRoutine, PeopleRoutines, People, Activities } = require('../models');
 const { v4: uuidv4 } = require('uuid');
+
+function formatTime(blocks) {
+  const totalMinutes = blocks * 30;
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
+}
+
+function deformatTime(time) {
+  const [hours, minutes] = time.split(':').map(Number);
+  const totalMinutes = hours * 60 + minutes;
+  return Math.floor(totalMinutes / 30);
+}
 
 exports.registerPeopleDayRoutines = async (req, res) => {
   const {personId, housePresetId} = req.body
@@ -82,52 +95,60 @@ exports.getPeopleRoutinesByPresetId = async (req, res) => {
 }
 
 exports.register = async (req, res) => {
-  const { activity, actuators, otherActivities, start, duration, dayRoutineId, presetId } = req.body;
-  // PRECISO CRIAR OS DAY ROUTINES ASSIM QUE ADICIONO A PESSOA
-  // PRECISO ASSOCIAR O PRESET ID TB
-  if (!activity || !start || !duration || !dayRoutineId || !presetId) {
+  const { activity, actuators, otherActivities, start, duration, dayRoutineId, presetId, room } = req.body;
+  //return
+  if (!activity || !duration || !dayRoutineId || !presetId || !room) {
     return res.status(400).json({ error: 'Insufficient data to register routine' });
   }
 
   const transaction = await RoutineActivities.sequelize.transaction();
 
   try {
-    const startTime = `${String(start).padStart(2, '0')}:00:00`;
-    const endTime = `${String(start + duration).padStart(2, '0')}:00:00`;
+    const startTime = formatTime(start);
+    const endTime = formatTime(start + duration);
 
-    // 1. Create main RoutineActivity
     const routineActivity = await RoutineActivities.create({
       id: uuidv4(),
       dayRoutineId,
       activityId: activity.id,
       startTime,
       endTime,
-      activityRoom: activity.houseRoomId || activity.roomId, // depends on source
+      activityRoom: room.id,
     }, { transaction });
 
-    // 2. Register associated Actuators
     for (const item of actuators) {
-      const actuatorId = item.actuatorId;
-      for (const status of item.status) {
-        await ActuatorsActivity.create({
-          id: uuidv4(),
-          routineActivitiesId: routineActivity.id,
-          actuatorId,
-          switch_led: status.switch_led,
-          bright_value_v2: status.bright_value_v2,
-          temp_value_v2: status.temp_value_v2,
-          switch: status.switch,
-          switch_1: status.switch_1,
-          sound_volume: status.sound_volume,
-          temp_set: status.temp_set,
-          mode: status.mode,
-          presence_state: status.presence_state,
-          human_motion_state: status.human_motion_state,
-        }, { transaction });
+      const actuatorId = item.actuator.actuatorId;
+
+      const statusMap = Object.fromEntries(item.status.map(({ name, value }) => [name, value]));
+
+      const statusFields = [
+        'switch_led',
+        'bright_value_v2',
+        'temp_value_v2',
+        'switch',
+        'switch_1',
+        'sound_volume',
+        'temp_set',
+        'mode',
+        'presence_state',
+        'human_motion_state'
+      ];
+
+      const actuatorStatus = {};
+      for (const field of statusFields) {
+        if (statusMap[field] !== undefined) {
+          actuatorStatus[field] = statusMap[field];
+        }
       }
+
+      await ActuatorsActivity.create({
+        id: uuidv4(),
+        routineActivitiesId: routineActivity.id,
+        actuatorId,
+        ...actuatorStatus
+      }, { transaction });
     }
 
-    // 3. Register associated OtherActivities
     for (const item of otherActivities) {
       await OtherActivities.create({
         id: uuidv4(),
@@ -145,3 +166,40 @@ exports.register = async (req, res) => {
     return res.status(500).json({ error: 'Error registering routine', details: err.message });
   }
 };
+
+exports.getRoutine = async (req,res) => {
+    try {
+    const { dayRoutineId } = req.params;
+    if (!dayRoutineId) {
+      return res.status(400).json({ error: 'dayRoutineId is required' });
+    }
+
+    const data = await RoutineActivities.findAll({
+      where: { dayRoutineId }
+    });
+
+    const activitiesWithName = await Promise.all(
+      data.map(async (activitieRoutine) => {
+        const activity = await Activities.findOne({ where: { id: activitieRoutine.activityId } });
+        const startTime = deformatTime(activitieRoutine.startTime)
+        const endTime = deformatTime(activitieRoutine.endTime)
+        return {
+          ...activitieRoutine.toJSON(),
+          start: startTime,
+          end: endTime,
+          duration: endTime - startTime,
+          title: activity.name,
+          color: activity.color
+        };
+      })
+    );
+
+    return res.status(200).json(activitiesWithName);
+  } catch (err) {
+    return res.status(500).json({ error: 'Error fetching people activity routine', details: err.message });
+  }
+}
+
+exports.getAllRoutinesDays = async (req, res) => {
+  // do something
+}

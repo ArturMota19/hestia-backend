@@ -36,7 +36,7 @@ const RoutineActivities = sequelize.define('routineactivities', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'rooms',
+      model: 'houserooms',
       key: 'id',
     },
   },
@@ -51,9 +51,9 @@ RoutineActivities.associate = (models) => {
     foreignKey: 'activityId',
     as: 'activity',
   });
-  RoutineActivities.belongsTo(models.Rooms, {
+  RoutineActivities.belongsTo(models.HouseRooms, {
     foreignKey: 'activityRoom',
-    as: 'room',
+    as: 'houserooms',
   });
 };
 
