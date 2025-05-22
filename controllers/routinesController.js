@@ -201,5 +201,75 @@ exports.getRoutine = async (req,res) => {
 }
 
 exports.getAllRoutinesDays = async (req, res) => {
-  // do something
+  try {
+    let { peopleRoutinesIds } = req.body;
+    if (!peopleRoutinesIds || !Array.isArray(peopleRoutinesIds) || peopleRoutinesIds.length === 0) {
+      return res.status(400).json({ error: 'peopleRoutinesIds (array) is required in body' });
+    }
+
+    // Busca todas as rotinas das pessoas de uma vez
+    const peopleRoutines = await PeopleRoutines.findAll({ where: { id: peopleRoutinesIds } });
+    if (!peopleRoutines || peopleRoutines.length === 0) {
+      return res.status(404).json({ error: 'No PeopleRoutines found for provided ids' });
+    }
+
+    // Busca nomes das pessoas
+    const peopleIds = peopleRoutines.map(r => r.peopleId);
+    const peopleList = await People.findAll({ where: { id: peopleIds } });
+    const peopleMap = {};
+    peopleList.forEach(p => { peopleMap[p.id] = p.name; });
+
+    const days = [
+      { key: 'mondayRoutineId', name: 'monday' },
+      { key: 'tuesdayRoutineId', name: 'tuesday' },
+      { key: 'wednesdayRoutineId', name: 'wednesday' },
+      { key: 'thursdayRoutineId', name: 'thursday' },
+      { key: 'fridayRoutineId', name: 'friday' },
+      { key: 'saturdayRoutineId', name: 'saturday' },
+      { key: 'sundayRoutineId', name: 'sunday' }
+    ];
+
+    const result = await Promise.all(
+      peopleRoutines.map(async (peopleRoutine) => {
+        const obj = {
+          peopleRoutineId: peopleRoutine.id,
+          peopleId: peopleRoutine.peopleId,
+          peopleName: peopleMap[peopleRoutine.peopleId] || null
+        };
+
+        for (const day of days) {
+          const dayRoutineId = peopleRoutine[day.key];
+          let routine = [];
+          if (dayRoutineId) {
+            const data = await RoutineActivities.findAll({ where: { dayRoutineId } });
+            routine = await Promise.all(
+              data.map(async (activitieRoutine) => {
+                const activity = await Activities.findOne({ where: { id: activitieRoutine.activityId } });
+                const startTime = deformatTime(activitieRoutine.startTime);
+                const endTime = deformatTime(activitieRoutine.endTime);
+                return {
+                  ...activitieRoutine.toJSON(),
+                  start: startTime,
+                  end: endTime,
+                  duration: endTime - startTime,
+                  title: activity ? activity.name : null,
+                  color: activity ? activity.color : null
+                };
+              })
+            );
+          }
+          obj[day.name] = {
+            dayName: day.name,
+            dayId: dayRoutineId,
+            routine
+          };
+        }
+        return obj;
+      })
+    );
+
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.status(500).json({ error: 'Error fetching all routines days', details: err.message });
+  }
 }
