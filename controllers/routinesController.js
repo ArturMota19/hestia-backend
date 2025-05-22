@@ -273,3 +273,48 @@ exports.getAllRoutinesDays = async (req, res) => {
     return res.status(500).json({ error: 'Error fetching all routines days', details: err.message });
   }
 }
+
+exports.updateRoutineActivities = async (req, res) => {
+  try {
+    const activities = req.body;
+    if (!Array.isArray(activities) || activities.length === 0) {
+      return res.status(400).json({ error: 'Array of activities is required' });
+    }
+
+    const updatedActivities = [];
+
+    for (const activity of activities) {
+      const { id, activityId, activityRoom, start, end, dayRoutineId, duration } = activity;
+      if (!id || !activityId || !activityRoom || start === undefined || end === undefined || !dayRoutineId) {
+        return res.status(400).json({ error: 'Missing required fields in activity object' });
+      }
+
+      const startTime = formatTime(start);
+      const endTime = formatTime(duration + start);
+      const [updatedCount] = await RoutineActivities.update(
+        {
+          activityId,
+          activityRoom,
+          startTime,
+          endTime,
+          dayRoutineId
+        },
+        {
+          where: { id }
+        }
+      );
+
+      if (updatedCount === 0) {
+        return res.status(404).json({ error: `RoutineActivity with id ${id} not found` });
+      }
+
+      // Fetch the updated activity
+      const updatedActivity = await RoutineActivities.findOne({ where: { id } });
+      updatedActivities.push(updatedActivity);
+    }
+
+    return res.status(200).json({ message: 'Activities updated successfully', updatedActivities });
+  } catch (err) {
+    return res.status(500).json({ error: 'Error updating activities', details: err.message });
+  }
+}
