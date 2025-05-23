@@ -347,3 +347,53 @@ exports.deleteActivity = async (req,res) => {
     return res.status(500).json({ error: 'Error deleting RoutineActivity', details: err.message });
   }
 }
+
+exports.deletePersonFromPreset = async (req,res) => {
+  try {
+    const { personId, housePresetId } = req.body;
+    if (!personId || !housePresetId) {
+      return res.status(400).json({ error: "personId and housePresetId are required" });
+    }
+
+    // Find the PeopleRoutine
+    const peopleRoutine = await PeopleRoutines.findOne({
+      where: {
+        peopleId: personId,
+        housePresetId: housePresetId
+      }
+    });
+
+    if (!peopleRoutine) {
+      return res.status(404).json({ error: "PeopleRoutine not found for this person and housePreset" });
+    }
+
+    // Get all DayRoutine IDs
+    const dayRoutineIds = [
+      peopleRoutine.mondayRoutineId,
+      peopleRoutine.tuesdayRoutineId,
+      peopleRoutine.wednesdayRoutineId,
+      peopleRoutine.thursdayRoutineId,
+      peopleRoutine.fridayRoutineId,
+      peopleRoutine.saturdayRoutineId,
+      peopleRoutine.sundayRoutineId
+    ];
+
+    // Delete all RoutineActivities, ActuatorsActivity, and OtherActivities for each DayRoutine
+    for (const dayRoutineId of dayRoutineIds) {
+      const routineActivities = await RoutineActivities.findAll({ where: { dayRoutineId } });
+      for (const routineActivity of routineActivities) {
+        await ActuatorsActivity.destroy({ where: { routineActivitiesId: routineActivity.id } });
+        await OtherActivities.destroy({ where: { routineActivitiesId: routineActivity.id } });
+      }
+      await RoutineActivities.destroy({ where: { dayRoutineId } });
+      await DayRoutine.destroy({ where: { id: dayRoutineId } });
+    }
+
+    // Delete the PeopleRoutine itself
+    await PeopleRoutines.destroy({ where: { id: peopleRoutine.id } });
+
+    return res.status(200).json({ message: "Person and their routines removed from preset successfully" });
+  } catch (err) {
+    return res.status(500).json({ error: "Error deleting person from preset", details: err.message });
+  }
+}
