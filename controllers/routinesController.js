@@ -318,3 +318,32 @@ exports.updateRoutineActivities = async (req, res) => {
     return res.status(500).json({ error: 'Error updating activities', details: err.message });
   }
 }
+
+exports.deleteActivity = async (req,res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({ error: 'RoutineActivity id is required' });
+  }
+
+  const transaction = await RoutineActivities.sequelize.transaction();
+
+  try {
+    // Delete related ActuatorsActivity and OtherActivities first
+    await ActuatorsActivity.destroy({ where: { routineActivitiesId: id }, transaction });
+    await OtherActivities.destroy({ where: { routineActivitiesId: id }, transaction });
+
+    // Delete the RoutineActivity itself
+    const deletedCount = await RoutineActivities.destroy({ where: { id }, transaction });
+
+    if (deletedCount === 0) {
+      await transaction.rollback();
+      return res.status(404).json({ error: 'RoutineActivity not found' });
+    }
+
+    await transaction.commit();
+    return res.status(200).json({ message: 'RoutineActivity deleted successfully' });
+  } catch (err) {
+    await transaction.rollback();
+    return res.status(500).json({ error: 'Error deleting RoutineActivity', details: err.message });
+  }
+}

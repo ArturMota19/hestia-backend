@@ -6,6 +6,7 @@ const {
   getRoutine,
   getAllRoutinesDays,
   updateRoutineActivities,
+  deleteActivity
 } = require("../controllers/routinesController");
 const { auth } = require("../helpers/authHelper");
 
@@ -21,5 +22,6 @@ router.get(
 router.get("/getRoutine/:dayRoutineId", auth, getRoutine);
 router.post("/getAllRoutinesDays", auth, getAllRoutinesDays);
 router.put("/updateRoutineActivities", auth, updateRoutineActivities);
+router.delete("/deleteActivity/:id", auth, deleteActivity)
 
 module.exports = router;
