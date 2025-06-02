@@ -41,3 +41,18 @@ exports.getAll = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getAllWithoutPage = async (req, res) => {
+  try {
+    const userId = req.users.id;
+
+    const peopleData = await People.findAll({
+      where: { userId },
+    });
+
+    res.status(200).json({ peopleData });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+};

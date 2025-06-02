@@ -180,3 +180,88 @@ exports.getAll = async (req, res) => {
   }
 };
 
+exports.getAllWithoutPage = async (req, res) => {
+  try {
+    const userId = req.users.id;
+
+    const presetDataRaw = await HousePresets.findAll({
+      where: { userId },
+      include: [
+        {
+          model: GraphRooms,
+          attributes: [
+            "id",
+            "housePresetId",
+            "originRoomId",
+            "destinationRoomId",
+            "distance",
+            "createdAt",
+            "updatedAt",
+          ],
+          include: [
+            {
+              model: HouseRooms,
+              include: [
+                {
+                  model: Rooms,
+                },
+              ],
+            },
+            {
+              model: HouseRooms,
+              include: [
+                {
+                  model: Rooms,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          model: HouseRooms,
+          include: [
+            {
+              model: Rooms,
+            },
+            {
+              model: RoomActuators,
+              attributes: [
+                "id",
+                "houseRoomId",
+                "actuatorId",
+                "name",
+                "createdAt",
+                "updatedAt",
+              ],
+              include: [
+                {
+                  model: Actuators,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    // Mapeia os dados inserindo o `room.name` diretamente dentro de cada houseRoom
+    const presetData = presetDataRaw.map((preset) => {
+      const presetJSON = preset.toJSON();
+
+      if (Array.isArray(presetJSON.houserooms)) {
+        presetJSON.houserooms = presetJSON.houserooms.map((houseRoom) => ({
+          ...houseRoom,
+          name: houseRoom.room?.name || null,
+        }));
+      }
+
+      return presetJSON;
+    });
+
+    res.status(200).json({ presetData });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+

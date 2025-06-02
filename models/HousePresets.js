@@ -26,6 +26,7 @@ HousePresets.associate = (models) => {
   HousePresets.belongsTo(models.Users, { foreignKey: "userId" });
   HousePresets.hasMany(models.HouseRooms, { foreignKey: "housePresetId" });
   HousePresets.hasMany(models.GraphRooms, { foreignKey: "housePresetId" });
+  HousePresets.hasMany(models.PeopleRoutines, { foreignKey: "housePresetId" })
 };
 
 
