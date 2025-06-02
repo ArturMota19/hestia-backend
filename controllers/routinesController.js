@@ -305,16 +305,17 @@ exports.getAllRoutinesDays = async (req, res) => {
             const data = await RoutineActivities.findAll({ where: { dayRoutineId } });
             routine = await Promise.all(
               data.map(async (activitieRoutine) => {
-                const activity = await Activities.findOne({ where: { id: activitieRoutine.activityId } });
-                const startTime = deformatTime(activitieRoutine.startTime);
-                const endTime = deformatTime(activitieRoutine.endTime);
+                const activityPresetParam = await ActivityPresetParam.findOne({ where: { id: activitieRoutine.activityPresetParam } });
+                const activity = await Activities.findOne({where: {id: activityPresetParam.activityId}})
+                const startTime = deformatTime(activitieRoutine.startTime)
+                const endTime = deformatTime(activitieRoutine.endTime)
                 return {
                   ...activitieRoutine.toJSON(),
                   start: startTime,
                   end: endTime,
                   duration: endTime - startTime,
-                  title: activity ? activity.name : null,
-                  color: activity ? activity.color : null
+                  title: activityPresetParam.name,
+                  color: activity.color
                 };
               })
             );
@@ -345,8 +346,8 @@ exports.updateRoutineActivities = async (req, res) => {
     const updatedActivities = [];
 
     for (const activity of activities) {
-      const { id, activityId, activityRoom, start, end, dayRoutineId, duration } = activity;
-      if (!id || !activityId || !activityRoom || start === undefined || end === undefined || !dayRoutineId) {
+      const { id, activityPresetParam, start, duration, dayRoutineId } = activity;
+      if (!id || !activityPresetParam || start === undefined || duration === undefined || !dayRoutineId) {
         return res.status(400).json({ error: 'Missing required fields in activity object' });
       }
 
@@ -354,8 +355,7 @@ exports.updateRoutineActivities = async (req, res) => {
       const endTime = formatTime(duration + start);
       const [updatedCount] = await RoutineActivities.update(
         {
-          activityId,
-          activityRoom,
+          activityPresetParam,
           startTime,
           endTime,
           dayRoutineId
