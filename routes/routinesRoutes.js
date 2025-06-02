@@ -7,13 +7,15 @@ const {
   getAllRoutinesDays,
   updateRoutineActivities,
   deleteActivity,
-  deletePersonFromPreset
+  deletePersonFromPreset,
+  registerAcitivyPresetParam
 } = require("../controllers/routinesController");
 const { auth } = require("../helpers/authHelper");
 
 const router = express.Router();
 
 router.post("/register", auth, register);
+router.post("/registerAcitivyPresetParam", auth, registerAcitivyPresetParam)
 router.post("/registerPeopleDayRoutines", auth, registerPeopleDayRoutines);
 router.get(
   "/getPeopleRoutinesByPresetId/:housePresetId",

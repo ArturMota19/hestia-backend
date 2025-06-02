@@ -34,7 +34,7 @@ app.use("/routines", routinesRoutes)
 
 const PORT = process.env.PORT || 3000;
 sequelize
-  .sync({ alter: false })
+  .sync({ alter: true })
   .then(async () => {
     const existingUser = await Users.findOne({ where: { isAdmin: true } });
 

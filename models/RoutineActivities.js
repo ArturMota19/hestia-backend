@@ -8,19 +8,19 @@ const RoutineActivities = sequelize.define('routineactivities', {
     primaryKey: true,
     unique: true,
   },
+  activityPresetParam: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: 'activitypresetparams',
+      key: 'id',
+    },
+  },
   dayRoutineId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: 'dayroutines',
-      key: 'id',
-    },
-  },
-  activityId: {
-    type: DataTypes.UUID,
-    allowNull: false,
-    references: {
-      model: 'activities',
       key: 'id',
     },
   },
@@ -32,14 +32,7 @@ const RoutineActivities = sequelize.define('routineactivities', {
     type: DataTypes.TIME,
     allowNull: false,
   },
-  activityRoom: {
-    type: DataTypes.UUID,
-    allowNull: false,
-    references: {
-      model: 'houserooms',
-      key: 'id',
-    },
-  },
+
 });
 
 RoutineActivities.associate = (models) => {
@@ -47,13 +40,9 @@ RoutineActivities.associate = (models) => {
     foreignKey: 'dayRoutineId',
     as: 'dayRoutine',
   });
-  RoutineActivities.belongsTo(models.Activities, {
-    foreignKey: 'activityId',
-    as: 'activity',
-  });
-  RoutineActivities.belongsTo(models.HouseRooms, {
-    foreignKey: 'activityRoom',
-    as: 'houserooms',
+  RoutineActivities.belongsTo(models.ActivityPresetParam, {
+    foreignKey: 'activityPresetParam',
+    as: 'activityPresetParamAssociation',
   });
 };
 

@@ -13,6 +13,7 @@ const RoomActuators = require("./RoomActuators");
 const DayRoutine = require("./DayRoutine")
 const PeopleRoutines = require("./PeopleRoutines")
 const OtherActivities = require("./OtherActivities")
+const ActivityPresetParam = require("./ActivityPresetParam")
 const RoutineActivities = require("./RoutineActivities")
 const ActuatorsActivity = require("./ActuatorsActivity")
 
@@ -27,6 +28,7 @@ const models = {
   GraphRooms,
   RoomActuators,
   DayRoutine,
+  ActivityPresetParam,
   PeopleRoutines,
   OtherActivities,
   RoutineActivities,
