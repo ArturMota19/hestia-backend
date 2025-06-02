@@ -380,7 +380,7 @@ exports.updateRoutineActivities = async (req, res) => {
   }
 }
 
-exports.deleteActivity = async (req,res) => {
+exports.deleteActivity = async (req, res) => {
   const { id } = req.params;
   if (!id) {
     return res.status(400).json({ error: 'RoutineActivity id is required' });
@@ -389,17 +389,16 @@ exports.deleteActivity = async (req,res) => {
   const transaction = await RoutineActivities.sequelize.transaction();
 
   try {
-    // Delete related ActuatorsActivity and OtherActivities first
-    await ActuatorsActivity.destroy({ where: { routineActivitiesId: id }, transaction });
-    await OtherActivities.destroy({ where: { routineActivitiesId: id }, transaction });
-
-    // Delete the RoutineActivity itself
-    const deletedCount = await RoutineActivities.destroy({ where: { id }, transaction });
-
-    if (deletedCount === 0) {
+    const routineActivity = await RoutineActivities.findOne({ where: { id }, transaction });
+    if (!routineActivity) {
       await transaction.rollback();
       return res.status(404).json({ error: 'RoutineActivity not found' });
     }
+
+    await ActuatorsActivity.destroy({ where: { activityPresetParamId: routineActivity.activityPresetParam }, transaction });
+    await OtherActivities.destroy({ where: { activityPresetParamId: routineActivity.activityPresetParam }, transaction });
+
+    await RoutineActivities.destroy({ where: { id }, transaction });
 
     await transaction.commit();
     return res.status(200).json({ message: 'RoutineActivity deleted successfully' });
@@ -409,7 +408,7 @@ exports.deleteActivity = async (req,res) => {
   }
 }
 
-exports.deletePersonFromPreset = async (req,res) => {
+exports.deletePersonFromPreset = async (req, res) => {
   try {
     const { personId, housePresetId } = req.body;
     if (!personId || !housePresetId) {
@@ -439,12 +438,11 @@ exports.deletePersonFromPreset = async (req,res) => {
       peopleRoutine.sundayRoutineId
     ];
 
-    // Delete all RoutineActivities, ActuatorsActivity, and OtherActivities for each DayRoutine
     for (const dayRoutineId of dayRoutineIds) {
       const routineActivities = await RoutineActivities.findAll({ where: { dayRoutineId } });
       for (const routineActivity of routineActivities) {
-        await ActuatorsActivity.destroy({ where: { routineActivitiesId: routineActivity.id } });
-        await OtherActivities.destroy({ where: { routineActivitiesId: routineActivity.id } });
+        await ActuatorsActivity.destroy({ where: { activityPresetParamId: routineActivity.activityPresetParam } });
+        await OtherActivities.destroy({ where: { activityPresetParamId: routineActivity.activityPresetParam } });
       }
       await RoutineActivities.destroy({ where: { dayRoutineId } });
       await DayRoutine.destroy({ where: { id: dayRoutineId } });
