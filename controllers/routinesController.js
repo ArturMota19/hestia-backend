@@ -240,7 +240,8 @@ exports.getRoutine = async (req,res) => {
 
     const activitiesWithName = await Promise.all(
       data.map(async (activitieRoutine) => {
-        const activity = await Activities.findOne({ where: { id: activitieRoutine.activityId } });
+        const activityPresetParam = await ActivityPresetParam.findOne({ where: { id: activitieRoutine.activityPresetParam } });
+        const activity = await Activities.findOne({where: {id: activityPresetParam.activityId}})
         const startTime = deformatTime(activitieRoutine.startTime)
         const endTime = deformatTime(activitieRoutine.endTime)
         return {
@@ -248,7 +249,7 @@ exports.getRoutine = async (req,res) => {
           start: startTime,
           end: endTime,
           duration: endTime - startTime,
-          title: activity.name,
+          title: activityPresetParam.name,
           color: activity.color
         };
       })
