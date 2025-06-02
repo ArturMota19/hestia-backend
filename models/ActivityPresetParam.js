@@ -8,7 +8,7 @@ const ActivityPresetParam = sequelize.define('activitypresetparam', {
     primaryKey: true,
     unique: true,
   },
-  activityPresetName: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false
   },

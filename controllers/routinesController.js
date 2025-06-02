@@ -96,8 +96,8 @@ exports.getPeopleRoutinesByPresetId = async (req, res) => {
 }
 
 exports.registerAcitivyPresetParam = async (req, res) => {
-  const { activity, actuators, otherActivities, presetId, room, activityPresetName } = req.body;
-    if (!activity || !activityPresetName || !presetId || !room) {
+  const { activity, actuators, otherActivities, presetId, room, name } = req.body;
+    if (!activity || !name || !presetId || !room) {
     return res.status(400).json({ error: 'Insufficient data to register routine' });
     }
 
@@ -106,7 +106,7 @@ exports.registerAcitivyPresetParam = async (req, res) => {
 
     const activityPresetParam = await ActivityPresetParam.create({
       id: uuidv4(),
-      activityPresetName: activityPresetName,
+      name: name,
       presetId: presetId,
       activityId: activity.id,
       activityRoom: room.id,
@@ -162,6 +162,41 @@ exports.registerAcitivyPresetParam = async (req, res) => {
     return res.status(500).json({ error: 'Error registering routine', details: err.message });
   }
 }
+
+exports.getActivityPresetParams = async (req, res) => {
+  try {
+    const { presetId } = req.params;
+    if (!presetId) {
+      return res.status(400).json({ error: 'presetId is required' });
+    }
+
+    const presets = await ActivityPresetParam.findAll({
+      where: { presetId }
+    });
+
+    const result = await Promise.all(
+      presets.map(async (preset) => {
+        const actuators = await ActuatorsActivity.findAll({
+          where: { activityPresetParamId: preset.id }
+        });
+
+        const otherActivities = await OtherActivities.findAll({
+          where: { activityPresetParamId: preset.id }
+        });
+
+        return {
+          ...preset.toJSON(),
+          actuators,
+          otherActivities
+        };
+      })
+    );
+
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.status(500).json({ error: 'Error fetching activity preset params', details: err.message });
+  }
+};
 
 
 exports.register = async (req, res) => {

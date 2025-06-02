@@ -8,7 +8,8 @@ const {
   updateRoutineActivities,
   deleteActivity,
   deletePersonFromPreset,
-  registerAcitivyPresetParam
+  registerAcitivyPresetParam,
+  getActivityPresetParams
 } = require("../controllers/routinesController");
 const { auth } = require("../helpers/authHelper");
 
@@ -22,6 +23,7 @@ router.get(
   auth,
   getPeopleRoutinesByPresetId
 );
+router.get("/getActivityPresetParams/:presetId", auth, getActivityPresetParams)
 router.get("/getRoutine/:dayRoutineId", auth, getRoutine);
 router.post("/getAllRoutinesDays", auth, getAllRoutinesDays);
 router.put("/updateRoutineActivities", auth, updateRoutineActivities);
