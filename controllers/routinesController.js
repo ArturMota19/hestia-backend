@@ -95,7 +95,7 @@ exports.getPeopleRoutinesByPresetId = async (req, res) => {
   }
 }
 
-exports.registerAcitivyPresetParam = async (req, res) => {
+exports.registerActivyPresetParam = async (req, res) => {
   const { activity, actuators, otherActivities, presetId, room, name } = req.body;
     if (!activity || !name || !presetId || !room) {
     return res.status(400).json({ error: 'Insufficient data to register routine' });
@@ -199,74 +199,29 @@ exports.getActivityPresetParams = async (req, res) => {
 };
 
 
-exports.register = async (req, res) => {
-  const { activity, actuators, otherActivities, start, duration, dayRoutineId, presetId, room } = req.body;
+exports.registerEachRoutineActivity = async (req, res) => {
+  const { activityPresetParam, dayRoutineId, start, duration} = req.body;
   //return
-  if (!activity || !duration || !dayRoutineId || !presetId || !room) {
+  if (!activityPresetParam || !duration || !dayRoutineId) {
     return res.status(400).json({ error: 'Insufficient data to register routine' });
   }
 
-  const transaction = await RoutineActivities.sequelize.transaction();
 
   try {
     const startTime = formatTime(start);
     const endTime = formatTime(start + duration);
 
-    const routineActivity = await RoutineActivities.create({
+    const routineActivities = await RoutineActivities.create({
       id: uuidv4(),
-      dayRoutineId,
-      activityId: activity.id,
+      activityPresetParam,
       startTime,
       endTime,
-      activityRoom: room.id,
-    }, { transaction });
+      dayRoutineId
+    })
 
-    for (const item of actuators) {
-      const actuatorId = item.actuator.actuatorId;
 
-      const statusMap = Object.fromEntries(item.status.map(({ name, value }) => [name, value]));
-
-      const statusFields = [
-        'switch_led',
-        'bright_value_v2',
-        'temp_value_v2',
-        'switch',
-        'switch_1',
-        'sound_volume',
-        'temp_set',
-        'mode',
-        'presence_state',
-        'human_motion_state'
-      ];
-
-      const actuatorStatus = {};
-      for (const field of statusFields) {
-        if (statusMap[field] !== undefined) {
-          actuatorStatus[field] = statusMap[field];
-        }
-      }
-
-      await ActuatorsActivity.create({
-        id: uuidv4(),
-        routineActivitiesId: routineActivity.id,
-        actuatorId,
-        ...actuatorStatus
-      }, { transaction });
-    }
-
-    for (const item of otherActivities) {
-      await OtherActivities.create({
-        id: uuidv4(),
-        routineActivitiesId: routineActivity.id,
-        activityId: item.otherActivity.id,
-        probability: item.probability,
-      }, { transaction });
-    }
-
-    await transaction.commit();
-    return res.status(201).json({ message: 'Routine registered successfully!' });
+    return res.status(201).json({ message: 'Routine registered successfully!', data: routineActivities});
   } catch (err) {
-    await transaction.rollback();
     console.error(err);
     return res.status(500).json({ error: 'Error registering routine', details: err.message });
   }
