@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-const RoomActuators = sequelize.define('RoomActuators', {
+const RoomActuators = sequelize.define('roomactuators', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -12,7 +12,7 @@ const RoomActuators = sequelize.define('RoomActuators', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'HouseRooms',
+      model: 'houserooms',
       key: 'id',
     },
   },
@@ -20,7 +20,7 @@ const RoomActuators = sequelize.define('RoomActuators', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Actuators', 
+      model: 'actuators', 
       key: 'id',
     },
   },
@@ -33,11 +33,9 @@ const RoomActuators = sequelize.define('RoomActuators', {
 RoomActuators.associate = (models) => {
   RoomActuators.belongsTo(models.HouseRooms, {
     foreignKey: 'houseRoomId',
-    as: 'houseRoom',
   });
   RoomActuators.belongsTo(models.Actuators, {
     foreignKey: 'actuatorId',
-    as: 'actuator',
   });
 };
 

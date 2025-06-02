@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-const Rooms = sequelize.define('Rooms', {
+const Rooms = sequelize.define("rooms", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -12,8 +12,8 @@ const Rooms = sequelize.define('Rooms', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'users', // Assumes there is a Users model
-      key: 'id',
+      model: "users",
+      key: "id",
     },
   },
   name: {
@@ -27,7 +27,7 @@ const Rooms = sequelize.define('Rooms', {
 });
 
 Rooms.associate = (models) => {
-  Rooms.belongsTo(models.User, { foreignKey: 'userId' });
+  Rooms.belongsTo(models.Users, { foreignKey: "userId" });
   Rooms.hasMany(models.HouseRooms, { foreignKey: 'roomId' });
 };
 

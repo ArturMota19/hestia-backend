@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-const HouseRooms = sequelize.define('HouseRooms', {
+const HouseRooms = sequelize.define('houserooms', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -12,7 +12,7 @@ const HouseRooms = sequelize.define('HouseRooms', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'HousePresets',
+      model: 'housepresets',
       key: 'id',
     },
   },
@@ -20,7 +20,7 @@ const HouseRooms = sequelize.define('HouseRooms', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'Rooms', 
+      model: 'rooms', 
       key: 'id',
     },
   },
@@ -32,11 +32,9 @@ HouseRooms.associate = (models) => {
   HouseRooms.hasMany(models.RoomActuators, { foreignKey: "houseRoomId" });
   HouseRooms.hasMany(models.GraphRooms, {
     foreignKey: "originRoomId",
-    as: "originLinks",
   });
   HouseRooms.hasMany(models.GraphRooms, {
     foreignKey: "destinationRoomId",
-    as: "destinationLinks",
   });
 };
 
