@@ -52,6 +52,10 @@ ActivityPresetParam.associate = (models) => {
     foreignKey: 'presetId',
     as: 'preset',
   });
+  ActivityPresetParam.hasMany(models.ActuatorsActivity, {
+    foreignKey: 'activityPresetParamId',
+    as: 'actuatorsActivity',
+  });
 };
 
 module.exports = ActivityPresetParam;

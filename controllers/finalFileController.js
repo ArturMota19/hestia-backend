@@ -79,6 +79,15 @@ exports.generateFinalFile = async (req, res) => {
           as: "houserooms",
           include: [{ model: Rooms }],
         },
+        {
+          model: ActuatorsActivity,
+          as: "actuatorsActivity",
+          include: [
+            {
+              model: Actuators,
+            },
+          ],
+        },
         ],
       },
       ],
