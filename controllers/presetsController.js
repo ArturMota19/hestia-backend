@@ -201,6 +201,7 @@ exports.getAllWithoutPage = async (req, res) => {
           include: [
             {
               model: HouseRooms,
+              as: "originHouseRoom",
               include: [
                 {
                   model: Rooms,
@@ -209,6 +210,7 @@ exports.getAllWithoutPage = async (req, res) => {
             },
             {
               model: HouseRooms,
+              as: "destinationHouseRoom",
               include: [
                 {
                   model: Rooms,
