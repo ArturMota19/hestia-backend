@@ -12,6 +12,7 @@ const {
   RoomActuators,
   GraphRooms,
   RoutineActivities,
+  OtherActivities,
 } = require("../models");
 
 exports.generateFinalFile = async (req, res) => {
@@ -88,6 +89,15 @@ exports.generateFinalFile = async (req, res) => {
           include: [
             {
               model: Actuators,
+            },
+          ],
+        },
+        {
+          model: OtherActivities,
+          as: "otherActivities",
+          include: [
+            {
+              model: Activities,
             },
           ],
         },
