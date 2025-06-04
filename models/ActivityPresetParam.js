@@ -13,14 +13,14 @@ const ActivityPresetParam = sequelize.define('activitypresetparam', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  // presetId: {
-  //   type: DataTypes.UUID,
-  //   allowNull: false,
-  //   references: {
-  //     model: 'housepresets',
-  //     key: 'id',
-  //   },
-  // },
+  presetId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: 'housepresets',
+      key: 'id',
+    },
+  },
   activityId: {
     type: DataTypes.UUID,
     allowNull: false,
@@ -48,10 +48,10 @@ ActivityPresetParam.associate = (models) => {
     foreignKey: 'activityRoom',
     as: 'houserooms',
   });
-  // ActivityPresetParam.belongsTo(models.HousePresets, {
-  //   foreignKey: 'presetId',
-  //   as: 'preset',
-  // });
+  ActivityPresetParam.belongsTo(models.HousePresets, {
+    foreignKey: 'presetId',
+    as: 'preset',
+  });
 };
 
 module.exports = ActivityPresetParam;

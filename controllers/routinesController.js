@@ -200,9 +200,10 @@ exports.getActivityPresetParams = async (req, res) => {
 
 
 exports.registerEachRoutineActivity = async (req, res) => {
-  const { activityPresetParam, dayRoutineId, start, duration} = req.body;
+  console.log(req.body)
+  const { activityPresetParam, dayRoutineId, start, duration, presetId} = req.body;
   //return
-  if (!activityPresetParam || !duration || !dayRoutineId) {
+  if (!activityPresetParam || !duration || !dayRoutineId || !presetId) {
     return res.status(400).json({ error: 'Insufficient data to register routine' });
   }
 
@@ -214,6 +215,7 @@ exports.registerEachRoutineActivity = async (req, res) => {
     const routineActivities = await RoutineActivities.create({
       id: uuidv4(),
       activityPresetParam,
+      presetId,
       startTime,
       endTime,
       dayRoutineId
