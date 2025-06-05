@@ -130,6 +130,7 @@ exports.getAll = async (req, res) => {
           include: [
             {
               model: HouseRooms,
+              as: "originHouseRoom",
               include: [
                 {
                   model: Rooms,
@@ -138,6 +139,7 @@ exports.getAll = async (req, res) => {
             },
             {
               model: HouseRooms,
+              as: "destinationHouseRoom",
               include: [
                 {
                   model: Rooms,

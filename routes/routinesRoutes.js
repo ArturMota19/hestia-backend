@@ -9,7 +9,8 @@ const {
   deleteActivity,
   deletePersonFromPreset,
   registerActivyPresetParam,
-  getActivityPresetParams
+  getActivityPresetParams,
+  getAllPeopleRoutines
 } = require("../controllers/routinesController");
 const { auth } = require("../helpers/authHelper");
 
@@ -30,5 +31,6 @@ router.post("/getAllRoutinesDays", auth, getAllRoutinesDays);
 router.put("/updateRoutineActivities", auth, updateRoutineActivities);
 router.delete("/deleteActivity/:id", auth, deleteActivity)
 router.delete("/deletePersonFromPreset", auth, deletePersonFromPreset)
+router.get("/getAllPeopleRoutines/:page", auth, getAllPeopleRoutines)
 
 module.exports = router;

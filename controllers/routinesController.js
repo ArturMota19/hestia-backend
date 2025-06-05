@@ -1,6 +1,7 @@
 const { RoutineActivities, ActuatorsActivity, OtherActivities, DayRoutine, PeopleRoutines, People, Activities } = require('../models');
 const { v4: uuidv4 } = require('uuid');
 const ActivityPresetParam = require('../models/ActivityPresetParam');
+const { HousePresets } = require('../models');
 
 function formatTime(blocks) {
   const totalMinutes = blocks * 30;
@@ -458,3 +459,45 @@ exports.deletePersonFromPreset = async (req, res) => {
     return res.status(500).json({ error: "Error deleting person from preset", details: err.message });
   }
 }
+
+exports.getAllPeopleRoutines = async (req, res) => {
+  try {
+    const { page = 1 } = req.query;
+    const limit = 6;
+    const offset = (page - 1) * limit;
+
+    const count = await PeopleRoutines.count();
+
+    const peopleRoutines = await PeopleRoutines.findAll({
+      limit: parseInt(limit),
+      offset: parseInt(offset)
+    });
+
+    const finalPeopleRoutines = await Promise.all(
+      peopleRoutines.map(async (element) => {
+      let housePresetName = null;
+      let peopleName = null;
+
+      if (element.housePresetId) {
+        const housePreset = await HousePresets.findOne({ where: { id: element.housePresetId } });
+        housePresetName = housePreset ? housePreset.name : null;
+      }
+      if (element.peopleId) {
+        const person = await People.findOne({ where: { id: element.peopleId } });
+        peopleName = person ? person.name : null;
+      }
+
+      return {
+        ...element.toJSON(),
+        housePreset: housePresetName,
+        peopleName: peopleName
+      };
+      })
+    );
+    res.status(200).json({ peopleRoutines: finalPeopleRoutines, count });
+
+    res.status(200).json({ peopleRoutines, count });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
