@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
+
 const ActivityPresetParam = sequelize.define('activitypresetparam', {
   id: {
     type: DataTypes.UUID,
@@ -50,6 +51,14 @@ ActivityPresetParam.associate = (models) => {
   ActivityPresetParam.belongsTo(models.HousePresets, {
     foreignKey: 'presetId',
     as: 'preset',
+  });
+  ActivityPresetParam.hasMany(models.ActuatorsActivity, {
+    foreignKey: 'activityPresetParamId',
+    as: 'actuatorsActivity',
+  });
+  ActivityPresetParam.hasMany(models.OtherActivities, {
+    foreignKey: 'activityPresetParamId',
+    as: 'otherActivities',
   });
 };
 

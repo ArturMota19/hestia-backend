@@ -8,6 +8,14 @@ const RoutineActivities = sequelize.define('routineactivities', {
     primaryKey: true,
     unique: true,
   },
+  presetId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: 'housepresets',
+      key: 'id',
+    },
+  },
   activityPresetParam: {
     type: DataTypes.UUID,
     allowNull: false,
@@ -43,6 +51,10 @@ RoutineActivities.associate = (models) => {
   RoutineActivities.belongsTo(models.ActivityPresetParam, {
     foreignKey: 'activityPresetParam',
     as: 'activityPresetParamAssociation',
+  });
+  RoutineActivities.belongsTo(models.HousePresets, {
+    foreignKey: 'presetId',
+    as: 'preset',
   });
 };
 
