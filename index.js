@@ -36,7 +36,7 @@ app.use("/final-file", finalFileRoutes)
 
 const PORT = process.env.PORT || 3000;
 sequelize
-  .sync({ force: true })
+  .sync({ alter: false })
   .then(async () => {
     const existingUser = await Users.findOne({ where: { isAdmin: true } });
 
