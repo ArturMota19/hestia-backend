@@ -101,7 +101,6 @@ exports.registerActivyPresetParam = async (req, res) => {
     if (!activity || !name || !presetId || !room) {
     return res.status(400).json({ error: 'Insufficient data to register routine' });
     }
-
     const transaction = await ActivityPresetParam.sequelize.transaction();
     try {
 
@@ -134,6 +133,10 @@ exports.registerActivyPresetParam = async (req, res) => {
       const actuatorStatus = {};
       for (const field of statusFields) {
         if (statusMap[field] !== undefined) {
+          if(statusMap[field] == false){
+            actuatorStatus[field] = "OFF";
+            continue
+          }
           actuatorStatus[field] = statusMap[field];
         }
       }
