@@ -17,7 +17,7 @@ const { auth } = require("../helpers/authHelper");
 const router = express.Router();
 
 // router.post("/register", auth, register);
-router.post("/registerActivyPresetParam", auth, registerActivyPresetParam)
+// router.post("/registerActivyPresetParam", auth, registerActivyPresetParam)
 router.post("/registerPeopleDayRoutines", auth, registerPeopleDayRoutines);
 router.get(
   "/getPeopleRoutinesByPresetId/:housePresetId",
