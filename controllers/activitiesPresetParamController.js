@@ -1,4 +1,4 @@
-const { ActivityPresetParam, ActuatorsActivity, OtherActivities, DayRoutine, PeopleRoutines, People, Activities } = require('../models');
+const { ActivityPresetParam, ActuatorsActivity, OtherActivities, DayRoutine, PeopleRoutines, People, Activities, RoutineActivities } = require('../models');
 const { v4: uuidv4 } = require('uuid');
 
 exports.register = async (req, res) => {
@@ -91,6 +91,7 @@ exports.getAll = async (req, res) => {
     });
 
     const presetParams = presetParamsData.map((param) => ({
+      id: param.id,
       paramName: param.name,
       actuatorSpec: [],
       presetId: param.presetId,
@@ -100,6 +101,31 @@ exports.getAll = async (req, res) => {
     }));
 
     res.status(200).json({ activitiesPresetParamRoutes: presetParams, count });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.deleteById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.users.id;
+
+    const activitiesPresetParam = await ActivityPresetParam.findOne({ where: { id, userId } });
+    if (!activitiesPresetParam) {
+      return res.status(404).json({ message: "Activity not found" });
+    }
+
+    const routineActivitiesReference = await RoutineActivities.findOne({where: {activityPresetParam: id}})
+    if(routineActivitiesReference){
+      return res.status(423).json({ message: "Cannot delete: referenced elsewhere" });
+    }
+    
+    await ActuatorsActivity.destroy({ where: { activityPresetParamId: id } });
+    await OtherActivities.destroy({ where: { activityPresetParamId: id } });
+    await activitiesPresetParam.destroy({ where: { id, userId } });
+    res.status(200).json({ message: "Activity deleted" });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: err.message });
