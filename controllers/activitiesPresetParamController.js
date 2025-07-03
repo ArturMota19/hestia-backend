@@ -1,4 +1,5 @@
 const { ActivityPresetParam, ActuatorsActivity, OtherActivities, DayRoutine, PeopleRoutines, People, Activities } = require('../models');
+const { v4: uuidv4 } = require('uuid');
 
 exports.register = async (req, res) => {
   const { activity, actuators, otherActivities, presetId, room, name } = req.body;
