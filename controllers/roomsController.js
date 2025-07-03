@@ -1,3 +1,4 @@
+const { HousePresets, HouseRooms } = require("../models");
 const Rooms = require("../models/Rooms")
 
 exports.register = async (req, res) => {
@@ -29,6 +30,7 @@ exports.getAll = async (req, res) => {
     });
 
     const rooms = roomData.map((eachRoom) => ({
+      id: eachRoom.id,
       paramName: eachRoom.name,
       actuatorSpec: [],
       capacity: eachRoom.capacity,
@@ -50,6 +52,29 @@ exports.getSelf = async (req, res) => {
     });
     res.status(200).json({ rooms });
   } catch (e) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.deleteById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.users.id;
+
+    const room = await Rooms.findOne({ where: { id, userId } });
+    if (!room) {
+      return res.status(404).json({ message: "Room not found" });
+    }
+
+    const hasReference = await HouseRooms.findOne({where: {roomId: id}})
+    if(hasReference){
+      return res.status(423).json({ message: "Cannot delete: referenced elsewhere" });
+    }
+
+    await Rooms.destroy({ where: { id, userId } });
+    res.status(200).json({ message: "Room deleted" });
+  } catch (err) {
     console.log(err);
     res.status(500).json({ error: err.message });
   }
