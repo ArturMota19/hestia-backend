@@ -145,12 +145,10 @@ exports.getById = async (req, res) => {
       return res.status(404).json({ error: 'Activity Preset Param not found' });
     }
 
-    // Fetch actuators and include actuator info
     const actuatorsRaw = await ActuatorsActivity.findAll({
       where: { activityPresetParamId: id }
     });
 
-    // Fetch all actuators info in one go to avoid N+1 queries
     const actuatorIds = actuatorsRaw.map(a => a.actuatorId);
     const actuatorsInfo = await HouseRooms.findAll({
       where: { id: actuatorIds },
@@ -160,11 +158,7 @@ exports.getById = async (req, res) => {
       }]
     });
 
-    // If you have a separate Actuator model, use it instead of HouseRooms above
-
-    // Map actuators with status array and actuator info
     const actuators = await Promise.all(actuatorsRaw.map(async (act) => {
-      // Build status array from fields
       const statusFields = [
       'switch_led',
       'bright_value_v2',
@@ -192,8 +186,26 @@ exports.getById = async (req, res) => {
       };
     }));
 
-    const otherActivities = await OtherActivities.findAll({
+    const otherActivitiesRaw = await OtherActivities.findAll({
       where: { activityPresetParamId: id }
+    });
+
+    const otherActivityIds = otherActivitiesRaw.map(item => item.activityId);
+    const otherActivitiesDetails = await Activities.findAll({
+      where: { id: otherActivityIds }
+    });
+
+    const activityMap = {};
+    otherActivitiesDetails.forEach(act => {
+      activityMap[act.id] = act;
+    });
+
+    const otherActivities = otherActivitiesRaw.map(item => {
+      const activity = activityMap[item.activityId];
+      return {
+      otherActivity: activity ? activity.toJSON() : null,
+      probability: item.probability
+      };
     });
     // Get names
     const housePresets = await HousePresets.findByPk(activityPresetParam.presetId)
