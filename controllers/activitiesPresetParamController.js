@@ -132,6 +132,42 @@ exports.deleteById = async (req, res) => {
   }
 };
 
+exports.getById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.users.id;
+
+    const activityPresetParam = await ActivityPresetParam.findOne({
+      where: { id, userId }
+    });
+
+    if (!activityPresetParam) {
+      return res.status(404).json({ error: 'Activity Preset Param not found' });
+    }
+
+    const actuators = await ActuatorsActivity.findAll({
+      where: { activityPresetParamId: id }
+    });
+
+    const otherActivities = await OtherActivities.findAll({
+      where: { activityPresetParamId: id }
+    });
+
+    res.status(200).json({
+      id: activityPresetParam.id,
+      name: activityPresetParam.name,
+      presetId: activityPresetParam.presetId,
+      activityId: activityPresetParam.activityId,
+      activityRoom: activityPresetParam.activityRoom,
+      actuators,
+      otherActivities
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.updateById = async (req, res) => {
   const { id } = req.params;
   const { activity, actuators, otherActivities, presetId, room, name } = req.body;
