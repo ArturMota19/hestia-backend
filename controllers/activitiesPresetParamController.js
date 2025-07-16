@@ -1,4 +1,4 @@
-const { ActivityPresetParam, ActuatorsActivity, OtherActivities, DayRoutine, PeopleRoutines, People, Activities, RoutineActivities, HousePresets, HouseRooms, Rooms } = require('../models');
+const { ActivityPresetParam, ActuatorsActivity, OtherActivities, DayRoutine, PeopleRoutines, People, Activities, RoutineActivities, HousePresets, HouseRooms, Rooms, Actuators } = require('../models');
 const { v4: uuidv4 } = require('uuid');
 
 exports.register = async (req, res) => {
@@ -145,9 +145,52 @@ exports.getById = async (req, res) => {
       return res.status(404).json({ error: 'Activity Preset Param not found' });
     }
 
-    const actuators = await ActuatorsActivity.findAll({
+    // Fetch actuators and include actuator info
+    const actuatorsRaw = await ActuatorsActivity.findAll({
       where: { activityPresetParamId: id }
     });
+
+    // Fetch all actuators info in one go to avoid N+1 queries
+    const actuatorIds = actuatorsRaw.map(a => a.actuatorId);
+    const actuatorsInfo = await HouseRooms.findAll({
+      where: { id: actuatorIds },
+      include: [{
+      model: Rooms,
+      as: 'room'
+      }]
+    });
+
+    // If you have a separate Actuator model, use it instead of HouseRooms above
+
+    // Map actuators with status array and actuator info
+    const actuators = await Promise.all(actuatorsRaw.map(async (act) => {
+      // Build status array from fields
+      const statusFields = [
+      'switch_led',
+      'bright_value_v2',
+      'temp_value_v2',
+      'switch',
+      'switch_1',
+      'sound_volume',
+      'temp_set',
+      'mode',
+      'presence_state',
+      'human_motion_state'
+      ];
+      const status = statusFields
+      .filter(field => act[field] !== undefined && act[field] !== null)
+      .map(field => ({
+        name: field,
+        value: act[field] === "OFF" ? false : act[field]
+      }));
+      let actuator = await Actuators.findByPk(act.actuatorId);
+
+      return {
+      ...act.toJSON(),
+      actuator,
+      status
+      };
+    }));
 
     const otherActivities = await OtherActivities.findAll({
       where: { activityPresetParamId: id }
@@ -155,10 +198,6 @@ exports.getById = async (req, res) => {
     // Get names
     const housePresets = await HousePresets.findByPk(activityPresetParam.presetId)
     const activity = await Activities.findByPk(activityPresetParam.activityId)
-    const activityRoom = await HouseRooms.findOne({
-      where: {id: activityPresetParam.activityRoom, housePresetId: activityPresetParam.presetId}
-    })
-    const roomName = await Rooms.findByPk(activityRoom.roomId)
 
     res.status(200).json({
       id: activityPresetParam.id,
@@ -166,9 +205,8 @@ exports.getById = async (req, res) => {
       presetId: activityPresetParam.presetId,
       presetName: housePresets.name,
       activityId: activityPresetParam.activityId,
-      activityName: activity.name,
-      activityRoom: activityPresetParam.activityRoom,
-      activityRoomName: roomName.name,
+      activity: activity,
+      activityRoomId: activityPresetParam.activityRoom,
       actuators,
       otherActivities
     });
