@@ -1,4 +1,4 @@
-const { ActivityPresetParam, ActuatorsActivity, OtherActivities, DayRoutine, PeopleRoutines, People, Activities, RoutineActivities } = require('../models');
+const { ActivityPresetParam, ActuatorsActivity, OtherActivities, DayRoutine, PeopleRoutines, People, Activities, RoutineActivities, HousePresets, HouseRooms, Rooms } = require('../models');
 const { v4: uuidv4 } = require('uuid');
 
 exports.register = async (req, res) => {
@@ -152,13 +152,23 @@ exports.getById = async (req, res) => {
     const otherActivities = await OtherActivities.findAll({
       where: { activityPresetParamId: id }
     });
+    // Get names
+    const housePresets = await HousePresets.findByPk(activityPresetParam.presetId)
+    const activity = await Activities.findByPk(activityPresetParam.activityId)
+    const activityRoom = await HouseRooms.findOne({
+      where: {id: activityPresetParam.activityRoom, housePresetId: activityPresetParam.presetId}
+    })
+    const roomName = await Rooms.findByPk(activityRoom.roomId)
 
     res.status(200).json({
       id: activityPresetParam.id,
       name: activityPresetParam.name,
       presetId: activityPresetParam.presetId,
+      presetName: housePresets.name,
       activityId: activityPresetParam.activityId,
+      activityName: activity.name,
       activityRoom: activityPresetParam.activityRoom,
+      activityRoomName: roomName.name,
       actuators,
       otherActivities
     });
