@@ -239,7 +239,11 @@ exports.updateById = async (req, res) => {
 
   const transaction = await ActivityPresetParam.sequelize.transaction();
   try {
-    const activityPresetParam = await ActivityPresetParam.findOne({ where: { id, userId } });
+    const activityPresetParam = await ActivityPresetParam.findOne({
+      where: { id, userId },
+      transaction
+    });
+
     if (!activityPresetParam) {
       await transaction.rollback();
       return res.status(404).json({ error: 'Activity Preset Param not found' });
@@ -254,6 +258,10 @@ exports.updateById = async (req, res) => {
 
     await ActuatorsActivity.destroy({ where: { activityPresetParamId: id }, transaction });
     for (const item of actuators) {
+      // Ensure actuator and actuatorId exist
+      if (!item.actuator || !item.actuator.actuatorId) {
+        continue; // Skip this item if actuatorId is missing
+      }
       const actuatorId = item.actuator.actuatorId;
       const statusMap = Object.fromEntries(item.status.map(({ name, value }) => [name, value]));
       const statusFields = [
