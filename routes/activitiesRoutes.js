@@ -1,11 +1,12 @@
 const express = require('express');
-const { register, getAll, getAllWithoutPage, deleteById} = require('../controllers/activitiesController');
+const { register, getAll, getAllWithoutPage, deleteById, getByFilter} = require('../controllers/activitiesController');
 const { auth } = require('../helpers/authHelper');
 
 const router = express.Router();
 
 router.post('/register', auth, register);
 router.get('/getAll/:page', auth, getAll);
+router.get('/getByFilter/:nameFilter', auth, getByFilter);
 router.get('/getAllWithoutPage', auth, getAllWithoutPage);
 router.delete('/deleteById/:id', auth, deleteById)
 
