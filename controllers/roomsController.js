@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { HousePresets, HouseRooms } = require("../models");
 const Rooms = require("../models/Rooms")
 
@@ -43,6 +44,31 @@ exports.getAll = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getByFilter = async (req, res) => {
+  try {
+    const userId = req.users.id;
+    const {nameFilter} = req.params;
+    const where = {
+      userId,
+      ...(nameFilter && { name: { [Op.like]: `%${nameFilter}%` } }),
+    };
+
+    const roomData = await Rooms.findAll({ where });
+    const rooms = roomData.map((eachRoom) => ({
+      id: eachRoom.id,
+      paramName: eachRoom.name,
+      actuatorSpec: [],
+      capacity: eachRoom.capacity,
+      type: "room",
+    }));
+    res.status(200).json({ rooms });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 exports.getSelf = async (req, res) => {
   try {
