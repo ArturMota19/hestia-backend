@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { ActivityPresetParam, ActuatorsActivity, OtherActivities, DayRoutine, PeopleRoutines, People, Activities, RoutineActivities, HousePresets, HouseRooms, Rooms, Actuators } = require('../models');
 const { v4: uuidv4 } = require('uuid');
 
@@ -106,6 +107,33 @@ exports.getAll = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getByFilter = async (req, res) => {
+  try {
+    const userId = req.users.id;
+    const {nameFilter} = req.params;
+    const where = {
+      userId,
+      ...(nameFilter && { name: { [Op.like]: `%${nameFilter}%` } }),
+    };
+
+    const presetParamsData = await ActivityPresetParam.findAll({ where });
+    const presetParams = presetParamsData.map((param) => ({
+      id: param.id,
+      paramName: param.name,
+      actuatorSpec: [],
+      presetId: param.presetId,
+      activityId: param.activityId,
+      activityRoom: param.activityRoom,
+      type: "activityPresetParam",
+    }));
+    res.status(200).json({ activitiesPresetParamRoutes: presetParams });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 exports.deleteById = async (req, res) => {
   try {
