@@ -16,6 +16,7 @@ const OtherActivities = require("./OtherActivities")
 const ActivityPresetParam = require("./ActivityPresetParam")
 const RoutineActivities = require("./RoutineActivities")
 const ActuatorsActivity = require("./ActuatorsActivity")
+const PeoplePriority = require("./PeoplePriority")
 
 const models = {
   Users,
@@ -32,7 +33,8 @@ const models = {
   PeopleRoutines,
   OtherActivities,
   RoutineActivities,
-  ActuatorsActivity
+  ActuatorsActivity,
+  PeoplePriority
 };
 
 Object.values(models).forEach((model) => {
