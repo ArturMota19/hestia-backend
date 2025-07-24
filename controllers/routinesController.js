@@ -2,6 +2,7 @@ const { RoutineActivities, ActuatorsActivity, OtherActivities, DayRoutine, Peopl
 const { v4: uuidv4 } = require('uuid');
 const ActivityPresetParam = require('../models/ActivityPresetParam');
 const { HousePresets } = require('../models');
+const PeoplePriority = require('../models/PeoplePriority');
 
 function formatTime(blocks) {
   const totalMinutes = blocks * 30;
@@ -384,6 +385,8 @@ exports.deletePersonFromPreset = async (req, res) => {
     }
 
     // Delete the PeopleRoutine itself
+    // Delete all related PeoplePriorities entries in cascade
+    await PeoplePriority.destroy({ where: { peopleRoutinesId: peopleRoutine.id } });
     await PeopleRoutines.destroy({ where: { id: peopleRoutine.id } });
 
     return res.status(200).json({ message: "Person and their routines removed from preset successfully" });

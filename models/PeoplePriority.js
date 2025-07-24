@@ -8,11 +8,11 @@ const PeoplePriority = sequelize.define('peoplepriority', {
     primaryKey: true,
     unique: true,
   },
-  houseRoomId: {
+  roomId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'houserooms',
+      model: 'rooms',
       key: 'id',
     },
   },
