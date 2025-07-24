@@ -3,16 +3,23 @@ const PeoplePriority = require("../models/PeoplePriority");
 
 exports.register = async (req, res) => {
   try {
-    const { peopleRoutinesId, priority, preferences } = req.body;
-    const userId = req.users.id;
-
-    // Atualiza a prioridade da rotina
+    const { peopleRoutinesId, presetId, priority, preferences } = req.body;
+    const existing = await PeopleRoutines.findOne({
+      where: {
+        housePresetId: presetId,
+        priority,
+      }
+    });
+    if (existing) {
+      return res.status(400).json({ error: "There is already a routine with this preset and priority for this user." });
+    }
     await PeopleRoutines.update(
       { priority },
       { where: { id: peopleRoutinesId } }
     );
-
-    // Itera sobre todas as preferências recebidas
+    if(!preferences){
+      res.status(201).json({ message: "OK without preferences, only priority.", priority });
+    }
     const prioritiesToCreate = preferences.map((pref) => {
       const { actuator, status, room } = pref;
 
@@ -22,7 +29,6 @@ exports.register = async (req, res) => {
         actuatorId: actuator.actuatorId,
       };
 
-      // Mapeia dinamicamente os campos de status
       status.forEach(({ name, value }) => {
         if (["switch", "switch_led", "switch_1", "presence_state", "human_motion_state"].includes(name)) {
           baseData[name] = value ? "ON" : "OFF";
@@ -34,10 +40,9 @@ exports.register = async (req, res) => {
       return baseData;
     });
 
-    // Cria todos os registros de uma vez
     await PeoplePriority.bulkCreate(prioritiesToCreate);
 
-    res.status(201).json({ message: "OK" });
+    res.status(201).json({ message: "OK", priority });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
