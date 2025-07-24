@@ -13,6 +13,14 @@ const ActivityPresetParam = sequelize.define('activitypresetparam', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  userId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: 'users',
+      key: 'id',
+    },
+  },
   presetId: {
     type: DataTypes.UUID,
     allowNull: false,
@@ -40,6 +48,10 @@ const ActivityPresetParam = sequelize.define('activitypresetparam', {
 });
 
 ActivityPresetParam.associate = (models) => {
+  // ActivityPresetParam.belongsTo(models.Users, {
+  //   foreignKey: 'userId',
+  //   as: 'userId',
+  // });
   ActivityPresetParam.belongsTo(models.Activities, {
     foreignKey: 'activityId',
     as: 'activity',
