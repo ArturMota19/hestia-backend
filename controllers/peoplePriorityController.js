@@ -1,4 +1,4 @@
-const { PeopleRoutines } = require("../models");
+const { PeopleRoutines, People } = require("../models");
 const PeoplePriority = require("../models/PeoplePriority");
 
 exports.register = async (req, res) => {
@@ -57,11 +57,23 @@ exports.getByPresetId = async (req, res) => {
       throw new Error("No preset id");
     }
     const routines = await PeopleRoutines.findAll({where: {housePresetId: id}})
+    if(!routines){
+      res.status(200).json({ message: "No preferences registered" });
+    }
     let peopleRoutinesIds = []
-    peopleRoutinesIds = routines.map(routine => routine.id);
-    console.log(peopleRoutinesIds)
+    peopleRoutinesIds = routines.map(routine => ({
+      id: routine.id,
+      peopleId: routine.peopleId
+    }));
+    const allRoutines = []
 
-    res.status(200).json({ message: "OK" });
+    for(const routineId of peopleRoutinesIds){
+      const eachPreference = await PeoplePriority.findAll({where: {peopleRoutinesId: routineId.id}})
+      const newJson = {peopleId: routineId.peopleId, eachPreference}
+      allRoutines.push(newJson)
+    }
+
+    res.status(200).json({ preferences: allRoutines });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
