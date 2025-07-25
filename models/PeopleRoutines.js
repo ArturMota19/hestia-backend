@@ -8,6 +8,13 @@ const PeopleRoutines = sequelize.define('peopleroutines', {
     primaryKey: true,
     unique: true,
   },
+  priority : {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    validate: {
+      min: 1,
+    },
+  },
   housePresetId: {
     type: DataTypes.UUID,
     allowNull: false,

@@ -8,6 +8,7 @@ const presetsRoutes = require("./routes/presetsRoutes");
 const routinesRoutes = require("./routes/routinesRoutes")
 const finalFileRoutes = require("./routes/finalFileRoutes")
 const activitiesPresetParamRoutes = require("./routes/activitiesPresetParamRoutes")
+const peoplePriority = require("./routes/peoplePriorityRoutes.js")
 const cors = require("cors");
 const { sequelize, models } = require("./models/index.js");
 const Users = require("./models/Users");
@@ -35,6 +36,7 @@ app.use("/presets", presetsRoutes);
 app.use("/routines", routinesRoutes)
 app.use("/final-file", finalFileRoutes)
 app.use("/activitiesPresetParamRoutes", activitiesPresetParamRoutes)
+app.use("/peoplePriority", peoplePriority)
 
 const PORT = process.env.PORT || 3000;
 sequelize
