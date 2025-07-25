@@ -48,3 +48,22 @@ exports.register = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+
+exports.getByPresetId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if(!id){
+      throw new Error("No preset id");
+    }
+    const routines = await PeopleRoutines.findAll({where: {housePresetId: id}})
+    let peopleRoutinesIds = []
+    peopleRoutinesIds = routines.map(routine => routine.id);
+    console.log(peopleRoutinesIds)
+
+    res.status(200).json({ message: "OK" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+};
