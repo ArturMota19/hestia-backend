@@ -1,4 +1,4 @@
-const { PeopleRoutines, People } = require("../models");
+const { PeopleRoutines, People, Actuators, Rooms } = require("../models");
 const PeoplePriority = require("../models/PeoplePriority");
 
 exports.register = async (req, res) => {
@@ -69,7 +69,14 @@ exports.getByPresetId = async (req, res) => {
 
     for(const routineId of peopleRoutinesIds){
       const eachPreference = await PeoplePriority.findAll({where: {peopleRoutinesId: routineId.id}})
-      const newJson = {peopleId: routineId.peopleId, eachPreference}
+      for (let i = 0; i < eachPreference.length; i++) {
+        const actuator = await Actuators.findOne({ where: { id: eachPreference[i].actuatorId } });
+        eachPreference[i].dataValues.actuatorName = actuator ? actuator.name : null;
+        const room = await Rooms.findOne({where: {id: eachPreference[i].roomId}})
+        eachPreference[i].dataValues.roomName = room ? room.name : null
+      }
+      const people = await People.findOne({where: {id: routineId.peopleId}})
+      const newJson = {peopleId: routineId.peopleId, peopleName: people.name, eachPreference}
       allRoutines.push(newJson)
     }
 
