@@ -202,15 +202,16 @@ exports.checkFileValidation = async (req, res) => {
   }
 };
 
-exports.teste = async (req, res) => {
+exports.generateData = async (req, res) => {
   try {
+    console.log(req.body)
+    const { file } = req.body
     let options = {
-      scriptPath: "./hestia-sim", // pasta onde está o script
+      scriptPath: "./hestia-sim",
       args: ["teste", "30", "teste2"],
     };
 
     PythonShell.PythonShell.run("data_generator.py", options).then((messages) => {
-      // messages é um array com cada linha do print do Python
       res.status(201).json({ result: messages[0] });
     }).catch((err) => {
       console.error(err);
