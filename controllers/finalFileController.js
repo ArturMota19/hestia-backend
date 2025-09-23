@@ -1,6 +1,7 @@
 const PeopleRoutines = require("../models").PeopleRoutines;
 const PythonShell = require("python-shell");
 const People = require("../models").People;
+const fs = require("fs");
 
 const {
   DayRoutine,
@@ -204,15 +205,24 @@ exports.checkFileValidation = async (req, res) => {
 
 exports.generateData = async (req, res) => {
   try {
-    console.log(req.body)
-    const { file } = req.body
+    // pega o JSON do body
+    const {finalData, type, days, name} = req.body;
+
+    // salva num arquivo temporário
+    const tempFile = `./hestia-sim/temp/temp_${Date.now()}.json`;
+    fs.writeFileSync(tempFile, JSON.stringify(finalData, null, 2));
+
+    // chama o Python passando o caminho do arquivo
     let options = {
       scriptPath: "./hestia-sim",
-      args: ["teste", "30", "teste2"],
+      args: [tempFile, type, days, name],
     };
 
     PythonShell.PythonShell.run("data_generator.py", options).then((messages) => {
-      res.status(201).json({ result: messages[0] });
+      console.log(messages);
+
+      // aqui você pode mandar o arquivo final gerado pelo Python
+      res.download(messages[0]); // se o Python retornar o caminho do arquivo gerado
     }).catch((err) => {
       console.error(err);
       res.status(500).json({ error: err.message });
