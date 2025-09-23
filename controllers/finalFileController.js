@@ -1,4 +1,5 @@
 const PeopleRoutines = require("../models").PeopleRoutines;
+const PythonShell = require("python-shell");
 const People = require("../models").People;
 
 const {
@@ -195,6 +196,27 @@ exports.generateFinalFile = async (req, res) => {
 exports.checkFileValidation = async (req, res) => {
   try {
     res.status(201).json({ message: "OK" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.teste = async (req, res) => {
+  try {
+    let options = {
+      scriptPath: "./hestia-sim", // pasta onde está o script
+      args: ["teste", "30", "teste2"],
+    };
+
+    PythonShell.PythonShell.run("data_generator.py", options).then((messages) => {
+      // messages é um array com cada linha do print do Python
+      res.status(201).json({ result: messages[0] });
+    }).catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    });
+
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: err.message });
