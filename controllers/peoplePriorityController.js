@@ -76,7 +76,8 @@ exports.getByPresetId = async (req, res) => {
         eachPreference[i].dataValues.roomName = room ? room.name : null
       }
       const people = await People.findOne({where: {id: routineId.peopleId}})
-      const newJson = {peopleId: routineId.peopleId, peopleName: people.name, eachPreference}
+      const priority = await PeopleRoutines.findOne({where: {id: routineId.id}})
+      const newJson = {peopleId: routineId.peopleId, peopleName: people.name, eachPreference, priority: priority.priority}
       allRoutines.push(newJson)
     }
 
