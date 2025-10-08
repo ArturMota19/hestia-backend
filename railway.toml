@@ -2,15 +2,13 @@
 builder = "NIXPACKS"
 buildCommand = """
 npm install && \
+apt-get update -y && \
+apt-get install -y python3 python3-pip python3-venv curl && \
+curl -sSL https://install.python-poetry.org | python3 - && \
+export PATH="/root/.local/bin:$PATH" && \
 cd hestia-sim && \
-poetry install
+/root/.local/bin/poetry install
 """
 
 [start]
 cmd = "npm start"
-
-[nixpacks]
-node = "18"
-python = "3.11"
-
-packages = ["poetry"]
