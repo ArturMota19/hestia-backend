@@ -217,7 +217,7 @@ exports.generateData = async (req, res) => {
 
         // salva num arquivo temporário
         const baseDir =
-            process.env.NODE_ENV === "production" ? "./app/hestia-sim" : "./hestia-sim";
+            process.env.NODE_ENV === "production" ? "/app/hestia-sim" : "./hestia-sim";
         const tempFile = path.join(baseDir, "temp", `temp_${Date.now()}.json`);
         fs.writeFileSync(tempFile, JSON.stringify(finalData, null, 2));
 
