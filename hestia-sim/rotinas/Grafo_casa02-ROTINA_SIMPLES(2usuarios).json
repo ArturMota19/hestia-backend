@@ -1,0 +1,528 @@
+{
+	"ATUADORES": ["CAFETEIRA", "LAMPADA", "TV", "SOM", "AR_CONDICIONADO", "SENSOR_PRESENCA"],
+	"COMODOS": {
+		"rua": {
+			"nome": "RUA",
+			"atuadores": [],
+            "ocupacao_maxima": 4
+		},
+		"sala": {
+			"nome": "SALA",
+			"atuadores": ["TV", "AR_CONDICIONADO", "LAMPADA", "SENSOR_PRESENCA"],
+            "ocupacao_maxima": 4
+		},
+		"escritorio": {
+			"nome": "ESCRITORIO",
+			"atuadores": ["LAMPADA", "AR_CONDICIONADO", "SENSOR_PRESENCA"],
+            "ocupacao_maxima": 4
+		},
+		"banheiro_01": {
+			"nome": "BANHEIRO_01",
+			"atuadores": ["LAMPADA"],
+            "ocupacao_maxima": 1
+		},
+		"banheiro_02": {
+			"nome": "BANHEIRO_02",
+			"atuadores": ["LAMPADA", "SENSOR_PRESENCA"],
+            "ocupacao_maxima": 1
+		},
+		"quarto_01": {
+			"nome": "QUARTO_01",
+			"atuadores": ["LAMPADA", "AR_CONDICIONADO", "TV", "SENSOR_PRESENCA"],
+            "ocupacao_maxima": 2
+		},
+		"quarto_02": {
+			"nome": "QUARTO_02",
+			"atuadores": ["LAMPADA", "AR_CONDICIONADO", "SOM", "SENSOR_PRESENCA"],
+            "ocupacao_maxima": 2
+		},
+		"cozinha": {
+			"nome": "COZINHA",
+			"atuadores": ["LAMPADA", "CAFETEIRA", "SENSOR_PRESENCA"],
+            "ocupacao_maxima": 4
+		},
+		"varanda": {
+			"nome": "VARANDA",
+			"atuadores": ["LAMPADA", "SENSOR_PRESENCA"],
+            "ocupacao_maxima": 4
+		},
+		"lavanderia": {
+			"nome": "LAVANDERIA",
+			"atuadores": ["LAMPADA", "SENSOR_PRESENCA"],
+            "ocupacao_maxima": 2
+		},
+        "corredor": {
+            "nome": "CORREDOR",
+            "atuadores": ["LAMPADA", "SENSOR_PRESENCA"],
+            "ocupacao_maxima": 4
+        }
+	},
+	"GRAFO_COMODOS": [
+		["RUA", "SALA", 5],
+		["SALA", "ESCRITORIO", 1],
+		["SALA", "CORREDOR", 3],
+		["CORREDOR", "QUARTO_02", 4],
+		["CORREDOR", "COZINHA", 8],
+		["CORREDOR", "BANHEIRO_01", 6],
+		["CORREDOR", "VARANDA", 2],
+		["CORREDOR", "QUARTO_01", 3],
+		["VARANDA", "LAVANDERIA", 8],
+		["QUARTO_01", "BANHEIRO_02", 5]
+	],
+	"ATIVIDADES": {
+		"Dormir_quarto_01": {
+			"nome": "DORMIR_QUARTO_01",
+			"inicio_ocorrencia": "23:00:01",
+			"fim_ocorrencia": "00:00:00",
+			"duracao": 30,
+			"taxa_erro": 0.0,
+			"local_atividade": "QUARTO_01",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["OFF", "D"],
+				"AR_CONDICIONADO": ["ON", "D"],
+				"TV": ["OFF", "D"]
+			}
+		},
+		"Acordar_quarto_01": {
+			"nome": "ACORDAR_QUARTO_01",
+			"inicio_ocorrencia": "00:00:01",
+			"fim_ocorrencia": "07:00:00",
+			"duracao": 420,
+			"taxa_erro": 0.0,
+			"local_atividade": "QUARTO_01",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["OFF", "D"],
+				"AR_CONDICIONADO": ["OFF", "D"],
+				"TV": ["OFF", "D"]
+			}
+		},
+		"Dormir_quarto_02": {
+			"nome": "DORMIR_QUARTO_02",
+			"inicio_ocorrencia": "23:00:01",
+			"fim_ocorrencia": "00:00:00",
+			"duracao": 30,
+			"taxa_erro": 0.0,
+			"local_atividade": "QUARTO_02",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["OFF", "D"],
+				"AR_CONDICIONADO": ["ON", "D"],
+				"SOM": ["OFF", "D"]
+			}
+		},
+		"Acordar_quarto_02": {
+			"nome": "ACORDAR_QUARTO_02",
+			"inicio_ocorrencia": "00:00:01",
+			"fim_ocorrencia": "07:00:00",
+			"duracao": 420,
+			"taxa_erro": 0.0,
+			"local_atividade": "QUARTO_02",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["OFF", "D"],
+				"AR_CONDICIONADO": ["OFF", "D"],
+				"SOM": ["OFF", "D"]
+			}
+		},
+		"Fazer_nada": {
+			"nome": "FAZER_NADA",
+			"inicio_ocorrencia": "00:00:01",
+			"fim_ocorrencia": "07:00:00",
+			"duracao": 30,
+			"taxa_erro": 0.0,
+			"local_atividade": "QUARTO_01",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"AR_CONDICIONADO": ["OFF", "D"],
+				"TV": ["OFF", "D"]
+			}
+		},
+		"Escovar_dentes_banheiro_01": {
+			"nome": "ESCOVAR_DENTES_BANHEIRO_01",
+			"inicio_ocorrencia": "07:00:01",
+			"fim_ocorrencia": "07:05:00",
+			"duracao": 5,
+			"taxa_erro": 0.0,
+			"local_atividade": "BANHEIRO_01",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"]
+			}
+		},
+		"Caga_banheiro_01": {
+			"nome": "CAGA_BANHEIRO_01",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 20,
+			"taxa_erro": 0.0,
+			"local_atividade": "BANHEIRO_01",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"]
+			}
+		},
+		"Usar_banheiro_01": {
+			"nome": "USAR_BANHEIRO_01",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 8,
+			"taxa_erro": 0.0,
+			"local_atividade": "BANHEIRO_01",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"]
+			}
+		},
+		"Mijar_banheiro_01": {
+			"nome": "MIJAR_BANHEIRO_01",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 3,
+			"taxa_erro": 0.0,
+			"local_atividade": "BANHEIRO_01",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"]
+			}
+		},
+		"Tomar_banho_banheiro_01": {
+			"nome": "TOMAR_BANHO_BANHEIRO_01",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 15,
+			"taxa_erro": 0.0,
+			"local_atividade": "BANHEIRO_01",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"]
+			}
+		},
+		"Usar_banheiro_02": {
+			"nome": "USAR_BANHEIRO_02",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 8,
+			"taxa_erro": 0.0,
+			"local_atividade": "BANHEIRO_02",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"]
+			}
+		},
+		"Escovar_dentes_banheiro_02": {
+			"nome": "ESCOVAR_DENTES_BANHEIRO_02",
+			"inicio_ocorrencia": "07:00:01",
+			"fim_ocorrencia": "07:05:00",
+			"duracao": 5,
+			"taxa_erro": 0.0,
+			"local_atividade": "BANHEIRO_02",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"]
+			}
+		},
+		"Caga_banheiro_02": {
+			"nome": "CAGA_BANHEIRO_02",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 20,
+			"taxa_erro": 0.0,
+			"local_atividade": "BANHEIRO_02",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"]
+			}
+		},
+		"Mijar_banheiro_02": {
+			"nome": "MIJAR_BANHEIRO_02",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 3,
+			"taxa_erro": 0.0,
+			"local_atividade": "BANHEIRO_02",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"]
+			}
+		},
+		"Tomar_banho_banheiro_02": {
+			"nome": "TOMAR_BANHO_BANHEIRO_02",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 15,
+			"taxa_erro": 0.0,
+			"local_atividade": "BANHEIRO_02",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"]
+			}
+		},
+		"Cafe_da_manha": {
+			"nome": "CAFE_DA_MANHA",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 25,
+			"taxa_erro": 0.0,
+			"local_atividade": "COZINHA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"CAFETEIRA": ["ON", "D"],
+				"LAMPADA": ["OFF", "D"]
+			}
+		},
+		"Almocar": {
+			"nome": "ALMOCAR",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 50,
+			"taxa_erro": 0.0,
+			"local_atividade": "COZINHA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["OFF", "D"],
+				"CAFETEIRA": ["OFF", "D"]
+			}
+		},
+		"Jantar": {
+			"nome": "JANTAR",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 60,
+			"taxa_erro": 0.0,
+			"local_atividade": "COZINHA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"CAFETEIRA": ["OFF", "D"]
+			}
+		},
+		"Cozinhar": {
+			"nome": "COZINHAR",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 60,
+			"taxa_erro": 0.0,
+			"local_atividade": "COZINHA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["OFF", "D"],
+				"CAFETEIRA": ["OFF", "D"]
+			}
+		},
+		"Beber_agua": {
+			"nome": "BEBER_AGUA",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 2,
+			"taxa_erro": 0.0,
+			"local_atividade": "COZINHA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"CAFETEIRA": ["OFF", "D"]
+			}
+		},
+		"Trabalho_home_office_periodo_1": {
+			"nome": "TRABALHO_HOME_OFFICE_PERIODO_1",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 240,
+			"taxa_erro": 0.0,
+			"local_atividade": "ESCRITORIO",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"AR_CONDICIONADO": ["ON", "D"]
+			}
+		},
+		"Trabalho_home_office_periodo_2": {
+			"nome": "TRABALHO_HOME_OFFICE_PERIODO_2",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 240,
+			"taxa_erro": 0.0,
+			"local_atividade": "ESCRITORIO",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"AR_CONDICIONADO": ["ON", "D"]
+			}
+		},
+		"Trabalhar_fora": {
+			"nome": "TRABALHAR_FORA",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 480,
+			"taxa_erro": 0.0,
+			"local_atividade": "RUA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": null
+		},
+		"Assistir_tv_30_minutos": {
+			"nome": "ASSISTIR_TV_30_MINUTOS",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 30,
+			"taxa_erro": 0.0,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"TV": ["ON", "D"],
+				"AR_CONDICIONADO": ["ON", "D"]
+			}
+		},
+		"Assistir_tv_60_minutos": {
+			"nome": "ASSISTIR_TV_60_MINUTOS",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 60,
+			"taxa_erro": 0.0,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"TV": ["ON", "D"],
+				"AR_CONDICIONADO": ["ON", "D"]
+			}
+		},
+		"Assistir_tv_90_minutos": {
+			"nome": "ASSISTIR_TV_90_MINUTOS",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 90,
+			"taxa_erro": 0.0,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"TV": ["ON", "D"],
+				"AR_CONDICIONADO": ["ON", "D"]
+			}
+		},
+		"Assistir_tv_120_minutos": {
+			"nome": "ASSISTIR_TV_120_MINUTOS",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 60,
+			"taxa_erro": 0.0,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"TV": ["ON", "D"],
+				"AR_CONDICIONADO": ["ON", "D"]
+			}
+		},
+		"Ouvir_musica_30_minutos": {
+			"nome": "OUVIR_MUSICA_30_MINUTOS",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 30,
+			"taxa_erro": 0.0,
+			"local_atividade": "QUARTO_02",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"AR_CONDICIONADO": ["ON", "D"],
+				"SOM": ["ON", "D"]
+			}
+		},
+		"Ouvir_musica_60_minutos": {
+			"nome": "OUVIR_MUSICA_60_MINUTOS",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 60,
+			"taxa_erro": 0.0,
+			"local_atividade": "QUARTO_02",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"AR_CONDICIONADO": ["ON", "D"],
+				"SOM": ["ON", "D"]
+			}
+		},
+		"ler_livro": {
+			"nome": "OUVIR_MUSICA",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 60,
+			"taxa_erro": 0.0,
+			"local_atividade": "QUARTO_02",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"AR_CONDICIONADO": ["ON", "D"],
+				"SOM": ["OFF", "D"]
+			}
+		},
+		"Passear": {
+			"nome": "PASSEAR",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 120,
+			"taxa_erro": 0.0,
+			"local_atividade": "RUA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": null
+		},
+		"Estudar": {
+			"nome": "ESTUDAR",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 240,
+			"taxa_erro": 0.0,
+			"local_atividade": "RUA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": null
+		},
+		"Lavar_roupa": {
+			"nome": "LAVAR_ROUPA",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 90,
+			"taxa_erro": 0.0,
+			"local_atividade": "LAVANDERIA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"]
+			}
+		}
+	},
+	"USUARIOS": {
+		"Gustavo": {
+			"nome": "Gustavo",
+			"prioridade": 1,
+			"comodo_atual": "QUARTO_01",
+			"preferencia": {},
+			"rotina_semana": [
+				["ACORDAR_QUARTO_01", "CAFE_DA_MANHA", "ESCOVAR_DENTES_BANHEIRO_01", "FAZER_NADA", "TRABALHO_HOME_OFFICE_PERIODO_1", "MIJAR_BANHEIRO_01", "ALMOCAR", "FAZER_NADA", "BEBER_AGUA", "TRABALHO_HOME_OFFICE_PERIODO_2", "BEBER_AGUA","ASSISTIR_TV_60_MINUTOS", "JANTAR", "CAGA_BANHEIRO_02", "ASSISTIR_TV_90_MINUTOS", "TOMAR_BANHO_BANHEIRO_02","DORMIR_QUARTO_01"],
+				["ACORDAR_QUARTO_01", "CAFE_DA_MANHA", "USAR_BANHEIRO_01", "FAZER_NADA", "TRABALHO_HOME_OFFICE_PERIODO_1", "ALMOCAR", "USAR_BANHEIRO_01", "ASSISTIR_TV_30_MINUTOS", "TRABALHO_HOME_OFFICE_PERIODO_2", "COZINHAR", "JANTAR", "ASSISTIR_TV_90_MINUTOS", "TOMAR_BANHO_BANHEIRO_02","DORMIR_QUARTO_01"],
+				["ACORDAR_QUARTO_01", "CAFE_DA_MANHA", "USAR_BANHEIRO_01", "FAZER_NADA", "TRABALHO_HOME_OFFICE_PERIODO_1", "ALMOCAR", "FAZER_NADA", "TRABALHO_HOME_OFFICE_PERIODO_2", "BEBER_AGUA","ASSISTIR_TV_60_MINUTOS", "JANTAR", "ASSISTIR_TV_90_MINUTOS", "TOMAR_BANHO_BANHEIRO_02","DORMIR_QUARTO_01"],
+				["ACORDAR_QUARTO_01", "CAFE_DA_MANHA", "ESCOVAR_DENTES_BANHEIRO_01", "FAZER_NADA", "TRABALHO_HOME_OFFICE_PERIODO_1", "ALMOCAR", "USAR_BANHEIRO_01","ASSISTIR_TV_30_MINUTOS", "TRABALHO_HOME_OFFICE_PERIODO_2", "ASSISTIR_TV_60_MINUTOS", "JANTAR", "CAGA_BANHEIRO_02", "ASSISTIR_TV_30_MINUTOS", "FAZER_NADA", "FAZER_NADA", "TOMAR_BANHO_BANHEIRO_02","DORMIR_QUARTO_01"],
+				["ACORDAR_QUARTO_01", "CAFE_DA_MANHA", "USAR_BANHEIRO_01", "FAZER_NADA", "TRABALHO_HOME_OFFICE_PERIODO_1", "MIJAR_BANHEIRO_01", "ALMOCAR","USAR_BANHEIRO_01", "ASSISTIR_TV_30_MINUTOS", "TRABALHO_HOME_OFFICE_PERIODO_2", "BEBER_AGUA", "COZINHAR", "JANTAR", "ASSISTIR_TV_60_MINUTOS", "FAZER_NADA", "TOMAR_BANHO_BANHEIRO_02","DORMIR_QUARTO_01"],
+				["ACORDAR_QUARTO_01", "CAFE_DA_MANHA", "ESCOVAR_DENTES_BANHEIRO_01", "ASSISTIR_TV_120_MINUTOS", "BEBER_AGUA", "PASSEAR", "PASSEAR", "PASSEAR", "BEBER_AGUA", "CAGA_BANHEIRO_01", "ASSISTIR_TV_120_MINUTOS", "MIJAR_BANHEIRO_01", "ASSISTIR_TV_90_MINUTOS", "JANTAR", "TOMAR_BANHO_BANHEIRO_02","ASSISTIR_TV_120_MINUTOS", "DORMIR_QUARTO_01"],
+				["ACORDAR_QUARTO_01", "FAZER_NADA", "CAFE_DA_MANHA", "USAR_BANHEIRO_01", "ASSISTIR_TV_90_MINUTOS", "BEBER_AGUA", "ASSISTIR_TV_120_MINUTOS", "COZINHAR", "COZINHAR","ASSISTIR_TV_120_MINUTOS","ALMOCAR", "CAGA_BANHEIRO_01", "ASSISTIR_TV_120_MINUTOS", "MIJAR_BANHEIRO_01", "ASSISTIR_TV_120_MINUTOS", "JANTAR", "ASSISTIR_TV_120_MINUTOS", "TOMAR_BANHO_BANHEIRO_02", "ASSISTIR_TV_120_MINUTOS", "DORMIR_QUARTO_01"]
+			]
+			},
+		"Amanda": {
+			"nome": "Amanda",
+			"prioridade": 0,
+			"comodo_atual": "QUARTO_01",
+			"preferencia": {},
+			"rotina_semana": [
+				["ACORDAR_QUARTO_01", "USAR_BANHEIRO_02", "CAFE_DA_MANHA", "TRABALHAR_FORA", "JANTAR", "CAGA_BANHEIRO_02", "ASSISTIR_TV_90_MINUTOS", "TOMAR_BANHO_BANHEIRO_02","DORMIR_QUARTO_01"],
+				["ACORDAR_QUARTO_01", "CAFE_DA_MANHA", "USAR_BANHEIRO_02", "TRABALHAR_FORA", "BEBER_AGUA", "JANTAR", "ASSISTIR_TV_90_MINUTOS", "TOMAR_BANHO_BANHEIRO_02","DORMIR_QUARTO_01"],
+				["ACORDAR_QUARTO_01", "CAFE_DA_MANHA", "USAR_BANHEIRO_02", "TRABALHAR_FORA", "BEBER_AGUA", "JANTAR", "CAGA_BANHEIRO_02", "ASSISTIR_TV_90_MINUTOS", "TOMAR_BANHO_BANHEIRO_02","DORMIR_QUARTO_01"],
+				["ACORDAR_QUARTO_01", "USAR_BANHEIRO_02", "CAFE_DA_MANHA", "TRABALHAR_FORA", "JANTAR", "ASSISTIR_TV_90_MINUTOS", "TOMAR_BANHO_BANHEIRO_02","DORMIR_QUARTO_01"],
+				["ACORDAR_QUARTO_01", "CAFE_DA_MANHA", "USAR_BANHEIRO_02", "TRABALHAR_FORA", "BEBER_AGUA", "JANTAR", "CAGA_BANHEIRO_02", "ASSISTIR_TV_90_MINUTOS", "TOMAR_BANHO_BANHEIRO_02","DORMIR_QUARTO_01"],
+				["ACORDAR_QUARTO_01", "USAR_BANHEIRO_02", "CAFE_DA_MANHA", "ASSISTIR_TV_120_MINUTOS", "BEBER_AGUA", "PASSEAR", "PASSEAR", "PASSEAR", "BEBER_AGUA", "ASSISTIR_TV_120_MINUTOS", "MIJAR_BANHEIRO_01", "ASSISTIR_TV_90_MINUTOS", "JANTAR", "TOMAR_BANHO_BANHEIRO_02","ASSISTIR_TV_120_MINUTOS", "DORMIR_QUARTO_01"],
+				["ACORDAR_QUARTO_01", "USAR_BANHEIRO_02", "CAFE_DA_MANHA", "ASSISTIR_TV_90_MINUTOS", "BEBER_AGUA", "ASSISTIR_TV_120_MINUTOS", "COZINHAR", "COZINHAR","ASSISTIR_TV_120_MINUTOS","ALMOCAR", "CAGA_BANHEIRO_01", "ASSISTIR_TV_120_MINUTOS", "MIJAR_BANHEIRO_01", "ASSISTIR_TV_120_MINUTOS", "JANTAR", "ASSISTIR_TV_120_MINUTOS", "TOMAR_BANHO_BANHEIRO_02", "ASSISTIR_TV_120_MINUTOS", "DORMIR_QUARTO_01"]
+			]
+		}
+	},
+	"AUTOMACAO": []
+}

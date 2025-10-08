@@ -1,0 +1,279 @@
+{
+	"ATUADORES": ["LAMPADA", "TV", "SOM", "AR_CONDICIONADO", "SENSOR_PRESENCA"],
+	"COMODOS": {
+		"rua": {
+			"nome": "RUA",
+			"atuadores": [],
+            "ocupacao_maxima": 4
+		},
+		"sala": {
+			"nome": "SALA",
+			"atuadores": ["TV", "AR_CONDICIONADO", "LAMPADA", "SOM", "SENSOR_PRESENCA"],
+            "ocupacao_maxima": 4
+		}
+	},
+	"GRAFO_COMODOS": [
+		["RUA", "SALA", 5]
+	],
+	"ATIVIDADES": {
+		"Chegar": {
+			"nome": "CHEGAR",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 60,
+			"taxa_erro": 0,
+			"local_atividade": "RUA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": null
+		},
+		"Chegar_30m": {
+			"nome": "CHEGAR_30M",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 60,
+			"taxa_erro": 0.001,
+			"local_atividade": "RUA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": null
+		},
+		"Fim_rotina": {
+			"nome": "FIM_ROTINA",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 30,
+			"taxa_erro": 0,
+			"local_atividade": "RUA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": null
+		},
+		"Sair_comodo": {
+			"nome": "SAIR_COMODO",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 30,
+			"taxa_erro": 0,
+			"local_atividade": "RUA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": null
+		},
+		"Sair_comodo_2h": {
+			"nome": "SAIR_COMODO_2H",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 120,
+			"taxa_erro": 0,
+			"local_atividade": "RUA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": null
+		},
+		"invador_comodo": {
+			"nome": "INVADIR_COMODO",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 10,
+			"taxa_erro": 0.0,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": null
+		},
+		"exercicio_120_minutos": {
+			"nome": "EXERCICIO_120_MINUTOS",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 120,
+			"taxa_erro": 0.0,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"TV": ["OFF", "D"],
+				"AR_CONDICIONADO": ["ON", "D"],
+				"SOM" : ["ON", "D"]
+			}
+		},
+		"ler_livro_60_minutos": {
+			"nome": "LER_LIVRO_60_MINUTOS",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 60,
+			"taxa_erro": 0.02,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"TV": ["OFF", "D"],
+				"AR_CONDICIONADO": ["OFF", "D"],
+				"SOM" : ["OFF", "D"]
+			}
+		},
+		"usar_celular_30_minutos": {
+			"nome": "USAR_CELULAR_30_MINUTOS",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 30,
+			"taxa_erro": 0.05,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"TV": ["OFF", "D"],
+				"AR_CONDICIONADO": ["OFF", "D"],
+				"SOM" : ["OFF", "D"]
+			}
+		},
+		"Assistir_tv_30_minutos": {
+			"nome": "ASSISTIR_TV_30_MINUTOS",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 30,
+			"taxa_erro": 0.0,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"TV": ["ON", "D"],
+				"AR_CONDICIONADO": ["ON", "D"],
+				"SOM" : ["OFF", "D"]
+			}
+		},
+		"Assistir_tv_120_minutos": {
+			"nome": "ASSISTIR_TV_120_MINUTOS",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 120,
+			"taxa_erro": 0.0,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"TV": ["ON", "D"],
+				"AR_CONDICIONADO": ["ON", "D"],
+				"SOM": ["OFF", "D"]
+			}
+		},
+		"Ouvir_musica_30_minutos": {
+			"nome": "OUVIR_MUSICA_30_MINUTOS",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 30,
+			"taxa_erro": 0.0,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"AR_CONDICIONADO": ["ON", "D"],
+				"SOM": ["ON", "D"],
+				"TV": ["OFF", "D"]
+			}
+		},
+		"Ouvir_musica_60_minutos": {
+			"nome": "OUVIR_MUSICA_30_MINUTOS",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 60,
+			"taxa_erro": 0.0,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"AR_CONDICIONADO": ["ON", "D"],
+				"SOM": ["ON", "D"],
+				"TV": ["OFF", "D"]
+			}
+		},
+		"Estudar": {
+			"nome": "ESTUDAR",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 60,
+			"taxa_erro": 0.0,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"AR_CONDICIONADO": ["ON", "D"],
+				"SOM": ["OFF", "D"],
+				"TV": ["OFF", "D"]
+			}
+		},
+		"anomali_01": {
+			"nome": "ANOMALIA_01",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 1,
+			"taxa_erro": 0.0,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"AR_CONDICIONADO": ["OFF", "D"],
+				"SOM": ["OFF", "D"],
+				"TV": ["OFF", "D"]
+			}
+		},
+		"anomali_02": {
+			"nome": "ANOMALIA_02",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 1,
+			"taxa_erro": 0.0,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["OFF", "D"],
+				"AR_CONDICIONADO": ["ON", "D"],
+				"SOM": ["OFF", "D"],
+				"TV": ["OFF", "D"]
+			}
+		},
+		"anomali_03": {
+			"nome": "ANOMALIA_03",
+			"inicio_ocorrencia": null,
+			"fim_ocorrencia": null,
+			"duracao": 1,
+			"taxa_erro": 0.0,
+			"local_atividade": "SALA",
+			"atividades_associadas": {},
+			"lista_atuadores_atividade": {
+				"LAMPADA": ["ON", "D"],
+				"AR_CONDICIONADO": ["ON", "D"],
+				"SOM": ["OFF", "D"],
+				"TV": ["OFF", "D"]
+			}
+		}
+
+	},
+	"USUARIOS": {
+		"Marcus": {
+			"nome": "Marcus",
+			"prioridade": 1,
+			"comodo_atual": "RUA",
+			"preferencia": {},
+			"rotina_semana": [
+				["CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR_30M","EXERCICIO_120_MINUTOS","SAIR_COMODO_2H","SAIR_COMODO_2H","SAIR_COMODO_2H","SAIR_COMODO","SAIR_COMODO","SAIR_COMODO", "ASSISTIR_TV_120_MINUTOS", "LER_LIVRO_60_MINUTOS", "LER_LIVRO_60_MINUTOS", "FIM_ROTINA"],
+				["CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR_30M","ASSISTIR_TV_120_MINUTOS","USAR_CELULAR_30_MINUTOS","SAIR_COMODO_2H","SAIR_COMODO_2H","SAIR_COMODO_2H","SAIR_COMODO","SAIR_COMODO","SAIR_COMODO", "SAIR_COMODO","USAR_CELULAR_30_MINUTOS", "SAIR_COMODO", "OUVIR_MUSICA_30_MINUTOS", "OUVIR_MUSICA_30_MINUTOS", "ASSISTIR_TV_30_MINUTOS", "ASSISTIR_TV_30_MINUTOS", "ASSISTIR_TV_30_MINUTOS", "FIM_ROTINA"],
+				["CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR_30M","EXERCICIO_120_MINUTOS","SAIR_COMODO_2H","SAIR_COMODO_2H","SAIR_COMODO_2H","SAIR_COMODO", "SAIR_COMODO","SAIR_COMODO", "SAIR_COMODO", "SAIR_COMODO", "OUVIR_MUSICA_30_MINUTOS", "OUVIR_MUSICA_30_MINUTOS", "ASSISTIR_TV_30_MINUTOS", "ASSISTIR_TV_30_MINUTOS", "ASSISTIR_TV_30_MINUTOS", "FIM_ROTINA"],
+				["CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR_30M","ASSISTIR_TV_120_MINUTOS","SAIR_COMODO_2H","SAIR_COMODO_2H","SAIR_COMODO_2H","SAIR_COMODO", "USAR_CELULAR_30_MINUTOS","SAIR_COMODO","SAIR_COMODO", "SAIR_COMODO", "SAIR_COMODO", "OUVIR_MUSICA_30_MINUTOS", "OUVIR_MUSICA_30_MINUTOS", "ASSISTIR_TV_30_MINUTOS", "ASSISTIR_TV_30_MINUTOS", "ASSISTIR_TV_30_MINUTOS", "FIM_ROTINA"],
+				["CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR_30M","EXERCICIO_120_MINUTOS","SAIR_COMODO_2H","SAIR_COMODO_2H","SAIR_COMODO_2H","SAIR_COMODO","SAIR_COMODO","SAIR_COMODO", "ASSISTIR_TV_120_MINUTOS", "ASSISTIR_TV_120_MINUTOS", "LER_LIVRO_60_MINUTOS", "FIM_ROTINA"],
+				["CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR_30M", "SAIR_COMODO", "SAIR_COMODO", "ASSISTIR_TV_120_MINUTOS", "ASSISTIR_TV_30_MINUTOS", "SAIR_COMODO", "ASSISTIR_TV_120_MINUTOS", "FIM_ROTINA"],
+				["CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR","CHEGAR", "CHEGAR","CHEGAR_30M", "ASSISTIR_TV_120_MINUTOS", "ASSISTIR_TV_30_MINUTOS", "SAIR_COMODO_2H", "SAIR_COMODO", "ASSISTIR_TV_120_MINUTOS", "FIM_ROTINA"]
+			]
+		},
+		"Invasor": {
+			"nome": "invasor",
+			"prioridade": 1,
+			"comodo_atual": "RUA",
+			"preferencia": {},
+			"rotina_semana": [
+				["CHEGAR", "ANOMALIA_03","CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "ANOMALIA_03","CHEGAR", "FIM_ROTINA"],
+				["CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "INVADIR_COMODO","CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "FIM_ROTINA"],
+				["CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "ANOMALIA_02","CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "FIM_ROTINA"],
+				["CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR","ANOMALIA_02", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "FIM_ROTINA"],
+				["CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "ANOMALIA_01","CHEGAR", "FIM_ROTINA"],
+				["CHEGAR", "CHEGAR", "INVADIR_COMODO", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "ANOMALIA_03","CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "FIM_ROTINA"],
+				["CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "CHEGAR", "ANOMALIA_02","CHEGAR", "CHEGAR", "FIM_ROTINA"]
+			]
+		}
+	},
+	"AUTOMACAO": []
+}
