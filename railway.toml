@@ -1,8 +1,6 @@
 [build]
 builder = "nixpacks"
+buildCommand = "npm install && cd hestia-sim && pip install poetry && poetry install"
 
-[build.commands]
-build = "npm install && cd hestia-sim && pip install poetry && poetry install"
-
-[start]
-cmd = "npm start"
+[deploy]
+startCommand = "npm start"
