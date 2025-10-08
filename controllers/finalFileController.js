@@ -217,7 +217,7 @@ exports.generateData = async (req, res) => {
 
         // salva num arquivo temporário
         const baseDir = "./hestia-sim";
-        const tempFile = path.join(baseDir, "temp", `temp_${Date.now()}.json`);
+        const tempFile = path.join(baseDir, "temporario", `temp_${Date.now()}.json`);
         fs.writeFileSync(tempFile, JSON.stringify(finalData, null, 2));
 
         let options = {
