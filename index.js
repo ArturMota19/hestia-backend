@@ -40,7 +40,7 @@ app.use("/peoplePriority", peoplePriority)
 
 const PORT = process.env.PORT || 3000;
 sequelize
-  .sync({ alter: false })
+  .sync({ force: true })
   .then(async () => {
     const existingUser = await Users.findOne({ where: { isAdmin: true } });
 
