@@ -1,0 +1,12 @@
+[build]
+builder = "NIXPACKS"
+buildCommand = """
+npm install && \
+cd hestia-sim && \
+apt-get update -y && \
+apt-get install -y python3-poetry && \
+poetry install
+"""
+
+[start]
+cmd = "npm start"
