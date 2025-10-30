@@ -14,6 +14,7 @@ Este repositório contém o back-end da aplicação Interface HESTIA. A **Interf
 
 - Node.js instalado (versão 16+ recomendada)
 - MySQL e SGBDR (opcional, mas recomendado)
+- Python/Pip
 - [Repositório do front-end clonado](https://github.com/ArturMota19/hestia-frontend)
 
 ---
@@ -26,9 +27,15 @@ Este repositório contém o back-end da aplicação Interface HESTIA. A **Interf
    cd hestia-backend
    ```
 
-2. Instale as Dependências
+2. Instale as dependências
    ```bash
    npm install
+   ```
+
+2.1. Instale as dependências do simulador
+   ```bash
+   cd hestia-sim
+   pip install .
    ```
 
 3. Crie o .env na raiz do projeto:
@@ -70,6 +77,7 @@ Este repositório contém o back-end da aplicação Interface HESTIA. A **Interf
 
   - Node.js installed (version 16+ recommended)
   - MySQL and RDBMS (optional, but recommended)
+  - Python/Pip
   - [Front-end repository cloned](https://github.com/ArturMota19/hestia-frontend)
 
   ---
@@ -86,6 +94,12 @@ Este repositório contém o back-end da aplicação Interface HESTIA. A **Interf
     ```bash
     npm install
     ```
+
+2.1. Install simulator dependencies:
+   ```bash
+   cd hestia-sim
+   pip install .
+   ```
 
 3. Create the .env file at the project root:
     ```
